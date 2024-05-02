@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trip planning</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-top: 50px;
+    }
+
+    p {
+      text-align: center;
+      color: #666;
+      margin-bottom: 50px;
+    }
+
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input[type="checkbox"] {
+      margin-right: 10px;
+    }
+
+    button[type="submit"] {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 20px auto;
+      max-width: 600px;
+    }
+
+    li {
+      margin-bottom: 10px;
+      background-color: #fff;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    li button {
+      background-color: #dc3545;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    li button:hover {
+      background-color: #c82333;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Welcome to our school!</h1>
+  <p>You can plan your trip planning.</p>
+
+  <form id="optionsForm">
+    <label>
+      <input type="checkbox" name="option" value="Dewan Tun Canselor"><a href="dtc.html">DTC</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="FCI"><a href="fci.html">FCI</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="FCM & FAC"><a href="fcmfac.html">FCM & FAC</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="FOE"><a href="foe.html">FOE</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="FOM"><a href="fom.html">FOM</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="LP"><a href="lp.html">LP</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="MPH"><a href="mph.html">MPH</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="Siti Hasmah Digital Library"><a href="shdl.html">Siti Hasmah Digital Library</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="Starbees"><a href="starbee.html">Starbees</a>
+    </label>
+    <button type="submit">Add to your list</button>
+  </form>
+
+  <h2>Your list:</h2>
+  <ul id="selectedOptions"></ul>
+
+  <script>
+    document.getElementById('optionsForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // 阻止表单提交
+
+      // 获取选中的复选框
+      var checkboxes = document.getElementsByName('option');
+      var selectedOptions = [];
+
+      // 遍历复选框，将选中的选项添加到列表中
+      checkboxes.forEach(function(checkbox) {
+        if (checkbox.checked) {
+          selectedOptions.push(checkbox.value);
+        }
+      });
+
+      // 将选中的选项添加到列表中
+      var selectedOptionsList = document.getElementById('selectedOptions');
+      selectedOptionsList.innerHTML = ''; // 清空列表
+      selectedOptions.forEach(function(option) {
+        var listItem = document.createElement('li');
+        var deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', function() {
+          listItem.remove(); // 删除当前列表项
+        });
+        listItem.textContent = option;
+        listItem.appendChild(deleteButton); // 添加删除按钮
+        selectedOptionsList.appendChild(listItem);
+      });
+    });
+  </script>
+
+</body>
+</html>
