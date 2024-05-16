@@ -18,6 +18,9 @@
             border-radius: 5px;
             background-color: #f9f9f9;
         }
+        a:hover {
+            color: hsl(118, 76%, 48%); 
+        }
         h2 {
             text-align: center;
         }
@@ -67,10 +70,8 @@
 </head>
 <body>
 
-    <h2>Welcome to MMU</h2>
+    <h2>Welcome to MMU!</h2>
 
-    <h2>Interactive map</h2>
-    <button type="submit" class="centered"><a href="interativemap.html">click this</a></button>
     <p>You can plan your trip planning.</p>
 
     <form action="/submit_booking" method="post">
@@ -102,16 +103,25 @@
       <input type="checkbox" name="option" value="FOM"><a href="fom.html">FOM</a>
     </label>
     <label>
-      <input type="checkbox" name="option" value="LP"><a href="lp.html">LP</a>
-    </label>
-    <label>
       <input type="checkbox" name="option" value="MPH"><a href="mph.html">MPH</a>
     </label>
     <label>
-      <input type="checkbox" name="option" value="Siti Hasmah Digital Library"><a href="shdl.html">Siti Hasmah Digital Library</a>
+      <input type="checkbox" name="option" value="Siti Hasmah Digital Library"><a href="lp_shdl.html">SHDL&LP</a>
     </label>
     <label>
       <input type="checkbox" name="option" value="Starbees"><a href="starbee.html">Starbees</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="Swimming Pool"><a href="swimmingpoolcomplex.html">Swimming Pool </a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="HB1HB2HB3HB4"><a href="hb1hb2hb3hb4.html">HB1HB2HB3HB4</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="Stadium"><a href="mmustadium.html">Stadium</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="CLC"><a href="clc.html">Common Lecture Complex</a>
     </label>
     <button type="submit">Add to your list</button>
   </form>
