@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        p {
+            color: #666;
+        }
+        .slider-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .slide {
+            min-width: 100%;
+            overflow: hidden;
+        }
+        .slide img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+        .navigation {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        .nav-btn {
+            cursor: pointer;
+            background-color: rgba(255, 255, 255, 0.5);
+            color: #333;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            transition: background-color 0.3s ease;
+        }
+        .nav-btn:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Our Event</h1>
+        <div class="slider-container">
+            <div class="slider">
+                <div class="slide"><img src="1 (1).jpg" alt="Event Image 1"></div>
+                <div class="slide"><img src="2 (1).jpg" alt="Event Image 2"></div>
+                <div class="slide"><img src="3 (1).jpg" alt="Event Image 3"></div>
+                <!-- Add more slides here -->
+            </div>
+            <div class="navigation">
+                <button class="nav-btn prev" onclick="prevSlide()">&#10094;</button>
+                <button class="nav-btn next" onclick="nextSlide()">&#10095;</button>
+            </div>
+        </div>
+        <h2>Date & Time:</h2>
+        <p>June 14th, 2024 | 8:00PM - 10:00 PM</p>
+        <h2>Location:</h2>
+        <p>MMU DTC</p>
+        <h2>About the Event:</h2>
+        <p>Organised by Chinese Language Society Multimedia University</p>
+        <h2>Registration:</h2>
+        <p>To register for the event, please visit our <a href="https://forms.gle/YzfB29ra5xNhxfVw6">registration page</a>.</p>
+    </div>
+    <script>
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        
+        function showSlides() {
+            slideIndex++;
+            if (slideIndex >= slides.length) {
+                slideIndex = 0;
+            }
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.transform = `translateX(-${slideIndex * 100}%)`;
+            }
+        }
+        
+        function nextSlide() {
+            slideIndex++;
+            if (slideIndex >= slides.length) {
+                slideIndex = 0;
+            }
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.transform = `translateX(-${slideIndex * 100}%)`;
+            }
+        }
+        
+        function prevSlide() {
+            slideIndex--;
+            if (slideIndex < 0) {
+                slideIndex = slides.length - 1;
+            }
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.transform = `translateX(-${slideIndex * 100}%)`;
+            }
+        }
+        
+        setInterval(showSlides, 5000); // Change slide every 5 seconds
+    </script>
+</body>
+</html>
