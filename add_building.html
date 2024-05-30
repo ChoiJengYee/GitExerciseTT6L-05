@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Building</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center; /* Center align the text */
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px; /* Add some space below the title */
+        }
+
+        form {
+            width: 50%;
+            margin: 0 auto;
+            text-align: left; /* Reset text alignment for the form */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h2>Add New Building</h2>
+    <form action="add_building.php" method="post">
+        <label for="building_name">Name:</label>
+        <input type="text" id="building_name" name="building_name" required>
+        
+        <label for="building_description">Description:</label>
+        <textarea id="building_description" name="building_description" rows="4" cols="50"></textarea>
+        
+        <label for="building_location">Location:</label>
+        <input type="text" id="building_location" name="building_location">
+        
+        <label for="building_contact">Contact Details:</label>
+        <input type="text" id="building_contact" name="building_contact">
+        
+        <input type="submit" value="Add Building">
+    </form>
+</body>
+</html>
+

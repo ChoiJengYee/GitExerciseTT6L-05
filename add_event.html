@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Event</title>
+</head>
+<body>
+    <h2>Add New Event</h2>
+    <form action="add_event.php" method="post">
+        <label for="event_name">Name:</label>
+        <input type="text" id="event_name" name="event_name" required><br>
+        
+        <label for="event_date">Date:</label>
+        <input type="date" id="event_date" name="event_date" required><br> 
+
+        <label for="event_description">Description:</label>
+        <textarea id="event_description" name="event_description" rows="4" cols="50"></textarea><br>
+        
+        <label for="event_location">Location:</label>
+        <input type="text" id="event_location" name="event_location"><br>
+        
+        <label for="event_contact">Contact:</label>
+        <input type="text" id="event_contact" name="event_contact"><br>
+        
+        <input type="submit" value="Add Event">
+    </form>
+</body>
+</html>
