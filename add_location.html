@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Building</title>
+    <title>Add Location</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
-            text-align: center; /* Center align the text */
+            text-align: center; 
         }
 
         h2 {
             color: #333;
-            margin-bottom: 20px; /* Add some space below the title */
+            margin-bottom: 20px; 
         }
 
         form {
             width: 50%;
             margin: 0 auto;
-            text-align: left; /* Reset text alignment for the form */
+            text-align: left; 
         }
 
         label {
@@ -53,21 +53,18 @@
     </style>
 </head>
 <body>
-    <h2>Add New Building</h2>
-    <form action="add_building.php" method="post">
-        <label for="building_name">Name:</label>
-        <input type="text" id="building_name" name="building_name" required>
-        
-        <label for="building_description">Description:</label>
-        <textarea id="building_description" name="building_description" rows="4" cols="50"></textarea>
-        
-        <label for="building_location">Location:</label>
-        <input type="text" id="building_location" name="building_location">
-        
-        <label for="building_contact">Contact Details:</label>
-        <input type="text" id="building_contact" name="building_contact">
-        
-        <input type="submit" value="Add Building">
+    <h2>Add New Faculty</h2>
+    <form action="add_location.php" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" rows="4" required></textarea>
+
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" required>
+
+        <input type="submit" value="Add Location">
     </form>
 </body>
 </html>
