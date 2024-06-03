@@ -52,7 +52,7 @@ if (isset($_POST['submit'])) {
                     $hashed_password = md5($password); // Use hash function (e.g., md5) for password
 
                     // Insert user data into database using prepared statement
-                    $stmt = mysqli_prepare($conn, "INSERT INTO `user_form` (name, email, password, image) VALUES (?, ?, ?, ?)");
+                    $stmt = mysqli_prepare($conn, "INSERT INTO `users` (name, email, password, image) VALUES (?, ?, ?, ?)");
                     mysqli_stmt_bind_param($stmt, "ssss", $name, $email, $hashed_password, $image_name);
 
                     if (mysqli_stmt_execute($stmt)) {
