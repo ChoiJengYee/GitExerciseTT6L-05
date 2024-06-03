@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Information Management</title> 
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        th, td {
+            transition: background-color 0.3s ease;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        button {
+            padding: 6px 12px;
+            margin: 2px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #b30000;
+        }
+
+        button:focus {
+            outline: none;
+        }
+
+        button.add-button {
+            background-color: #28a745;
+        }
+
+        button.add-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h2>Building Entries</h2>
+    <table id="building-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Contact</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Building entries will be dynamically added here -->
+        </tbody>
+    </table>
+    <a href="add_building.html"><button class="add-button">Add New Building</button></a>
+
+    <button onclick="goToDashboard()">Back to Dashboard</button>
+
+    <h2>Faculty Entries</h2>
+    <table id="faculty-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Contact</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Faculty entries will be dynamically added here -->
+        </tbody>
+    </table>
+    <a href="add_faculty.html"><button class="add-button">Add New Faculty</button></a>
+
+    <button onclick="goToDashboard()">Back to Dashboard</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('get_entry.php')
+                .then(response => response.json())
+                .then(data => {
+                    const buildingTableBody = document.querySelector('#building-table tbody');
+                    const facultyTableBody = document.querySelector('#faculty-table tbody');
+
+                    // Populate building entries
+                    data.buildings.forEach(building => {
+                        const row = buildingTableBody.insertRow();
+                        row.insertCell(0).textContent = building.name;
+                        row.insertCell(1).textContent = building.description;
+                        row.insertCell(2).textContent = building.location;
+                        row.insertCell(3).textContent = building.contact;
+                        const actionsCell = row.insertCell(4);
+                        actionsCell.innerHTML = `
+                            <button onclick="editEntry('building', ${building.id}, '${building.name}', '${building.description}', '${building.location}', '${building.contact}')">Edit</button>
+                            <button onclick="deleteEntry('building', ${building.id})">Delete</button>
+                        `;
+                    });
+
+                    // Populate faculty entries
+                    data.faculties.forEach(faculty => {
+                        const row = facultyTableBody.insertRow();
+                        row.insertCell(0).textContent = faculty.name;
+                        row.insertCell(1).textContent = faculty.description;
+                        row.insertCell(2).textContent = faculty.location;
+                        row.insertCell(3).textContent = faculty.contact;
+                        const actionsCell = row.insertCell(4);
+                        actionsCell.innerHTML = `
+                            <button onclick="editEntry('faculty', ${faculty.id}, '${faculty.name}', '${faculty.description}', '${faculty.location}', '${faculty.contact}')">Edit</button>
+                            <button onclick="deleteEntry('faculty', ${faculty.id})">Delete</button>
+                        `;
+                    });
+                })
+                .catch(error => console.error('Error fetching entries:', error));
+        });
+
+        function editEntry(type, id, name, description, location, contact) {
+            const url = `edit_entry.html?type=${type}&id=${id}&name=${encodeURIComponent(name)}&description=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}&contact=${encodeURIComponent(contact)}`;
+            window.location.href = url;
+        }
+
+        function deleteEntry(type, id) {
+            if (confirm("Are you sure you want to delete this entry?")) {
+                fetch('delete_entry.php', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ type: type, id: id })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Entry deleted successfully');
+                        location.reload(); // Refresh the page to see the changes
+                    } else {
+                        alert('Error deleting entry: ' + data.error);
+                    }
+                })
+                .catch(error => console.error('Error deleting entry:', error));
+            }
+        }
+        function goToDashboard() {
+            window.location.href = "admin_dashboard.php"; // Replace with your dashboard page URL
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
