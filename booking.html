@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Travel Booking</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        a:hover {
+            color: hsl(118, 76%, 48%); 
+        }
+        h2 {
+            text-align: center;
+        }
+        p{
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+        }
+        input[type="text"], input[type="date"], select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        button{
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button.centered {
+           display: block;
+           margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Welcome to MMU!</h2>
+
+    <p>You can plan your trip planning.</p>
+
+    <form action="/submit_booking" method="post">
+        <label for="fullname">Fullname:</label>
+        <input type="text" id="fullname" name="fullname" required>
+
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required>
+
+        <label for="departure_date">Visit Date:</label>
+        <input type="date" id="visit_date" name="visit_date" required>
+
+        
+
+  <form id="optionsForm">
+    <label>
+      <input type="checkbox" name="option" value="Dewan Tun Canselor"><a href="dtc.html">DTC</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="FCI"><a href="fci.html">FCI</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="FCM & FAC"><a href="fcmfac.html">FCM & FAC</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="FOE"><a href="foe.html">FOE</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="FOM"><a href="fom.html">FOM</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="MPH"><a href="mph.html">MPH</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="Siti Hasmah Digital Library"><a href="lp_shdl.html">SHDL&LP</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="Starbees"><a href="starbee.html">Starbees</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="Swimming Pool"><a href="swimmingpoolcomplex.html">Swimming Pool </a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="HB1HB2HB3HB4"><a href="hb1hb2hb3hb4.html">HB1HB2HB3HB4</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="Stadium"><a href="mmustadium.html">Stadium</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="CLC"><a href="clc.html">Common Lecture Complex</a>
+    </label>
+    <button type="submit">Add to your list</button>
+  </form>
+
+  <h2>Your list:</h2>
+  <ul id="selectedOptions"></ul>
+
+  <script>
+    document.getElementById('optionsForm').addEventListener('submit', function(event) {
+      event.preventDefault(); 
+
+    
+      var checkboxes = document.getElementsByName('option');
+      var selectedOptions = [];
+
+      
+      checkboxes.forEach(function(checkbox) {
+        if (checkbox.checked) {
+          selectedOptions.push(checkbox.value);
+        }
+      });
+
+     
+      var selectedOptionsList = document.getElementById('selectedOptions');
+      selectedOptionsList.innerHTML = ''; 
+      selectedOptions.forEach(function(option) {
+        var listItem = document.createElement('li');
+        var deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', function() {
+          listItem.remove(); 
+        });
+        listItem.textContent = option;
+        listItem.appendChild(deleteButton);
+        selectedOptionsList.appendChild(listItem);
+      });
+    });
+  </script>
+  <input type="submit" value="Book Travel">
+</form>
+        
+
+</body>
+</html>
