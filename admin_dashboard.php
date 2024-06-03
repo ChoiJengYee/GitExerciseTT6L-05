@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Check if admin is logged in
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
     header("Location: admin_login.php");
     exit();
@@ -20,7 +19,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     <div class="container">
         <h2>Admin Dashboard</h2>
         <div class="buttons">
-            <a href="entry.html" class="button">Manage Buildings and Faculties</a>
+            <a href="location.html" class="button">Manage Locations</a>
             <a href="manage_user.php" class="button">Manage Users</a>
             <a href="event.html" class="button">Manage Events</a>
             <a href="manage_feedback.php" class="button">Manage Feedback</a>
