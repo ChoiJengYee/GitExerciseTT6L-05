@@ -25,6 +25,7 @@
                         Map
                         <div class="submenu">
                             <a href="#">Interactive Map</a>
+                            <a href="#">Comments</a>
                             <a href="#">Where U Are?</a>
                         </div>
                     </div>
