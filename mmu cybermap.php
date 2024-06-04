@@ -85,7 +85,7 @@
             }
 
             var formData = new FormData();
-            formData.append('location', location);
+            formData.append('locationID', location);
             formData.append('comment', commentText);
 
             fetch('submit_comment.php', {
