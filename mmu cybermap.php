@@ -60,47 +60,75 @@
             }).addTo(map);
 
             var popupContent = `
-                <h2>${location.title}</h2>
-                <p>${location.description}</p>
-                <button onclick="toggleCommentForm('${location.title}')">Add Comment</button>
-                <form class="comment-form" onsubmit="submitComment(event, '${location.title}')">
-                    <textarea id="commentText" placeholder="Enter your comment"></textarea><br>
-                    <input type="submit" value="Submit">
-                </form>
-            `;
-            circle.bindPopup(popupContent).openPopup();
-        });
+    <h2>${location.title}</h2>
+    <p>${location.description}</p>
+    <button onclick="toggleCommentForm('${location.title}')">Add Comment</button>
+    <form class="comment-form" onsubmit="submitComment(event, '${location.title}')">
+        <textarea id="commentText" placeholder="Enter your comment"></textarea><br>
+        <input type="submit" value="Submit">
+    </form>
+    <div class="comments-section" id="comments-${location.title}">
+        <h3>Comments:</h3>
+        <div id="comments-list-${location.title}">Loading comments...</div>
+    </div>
+`;
+circle.bindPopup(popupContent).openPopup();
 
-        function toggleCommentForm(location) {
-            // Toggle the display of the comment form if needed
+fetchComments(location.title);
+
+function fetchComments(location) {
+    fetch(`get_comments.php?locationID=${location}`)
+    .then(response => response.json())
+    .then(data => {
+        var commentsList = document.getElementById(`comments-list-${location}`);
+        if (data.length === 0) {
+            commentsList.innerHTML = '<p>No comments yet.</p>';
+        } else {
+            commentsList.innerHTML = data.map(comment => `
+                <div class="comment">
+                    <p>${comment.comment}</p>
+                    <small>${new Date(comment.created_at).toLocaleString()}</small>
+                </div>
+            `).join('');
         }
+    })
+    .catch(error => {
+        console.error('Error fetching comments:', error);
+    });
+}
 
-        function submitComment(event, location) {
-            event.preventDefault();
-            var commentText = event.target.querySelector('#commentText').value;
+function toggleCommentForm(location) {
+    // this is to toggle the display of the comment form if needed :/
+}
 
-            if (commentText.trim() === '') {
-                alert('Comment cannot be empty.');
-                return;
-            }
+function submitComment(event, location) {
+    event.preventDefault();
+    var commentText = event.target.querySelector('#commentText').value;
 
-            var formData = new FormData();
-            formData.append('locationID', location);
-            formData.append('comment', commentText);
+    if (commentText.trim() === '') {
+        alert('Comment cannot be empty.');
+        return;
+    }
 
-            fetch('submit_comment.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.text())
-            .then(data => {
-                alert(data);
-                event.target.reset();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
+    var formData = new FormData();
+    formData.append('locationID', location);
+    formData.append('comment', commentText);
+
+    fetch('submit_comment.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert(data);
+        event.target.reset();
+        fetchComments(location);  // this is to refresh comments after submission :P
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
     </script>
 </body>
 </html>
