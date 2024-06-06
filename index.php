@@ -70,7 +70,7 @@
                     commentsDiv.innerHTML = ''; // Clear previous comments
                     comments.forEach(comment => {
                         var p = document.createElement('p');
-                        p.textContent = comment.comment;
+                        p.textContent = comment.comment + " - " + comment.created_at; // Display comment and creation time
                         commentsDiv.appendChild(p);
                     });
                 });
@@ -101,7 +101,9 @@
                     circle.bindPopup(popupContent).openPopup();
 
                     // Fetch comments for each location
-                    fetchComments(location.id);
+                    circle.on('click', function() {
+                        fetchComments(location.id);
+                    });
                 });
             });
 
