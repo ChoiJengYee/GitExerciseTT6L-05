@@ -2,7 +2,6 @@
 include 'config.php';
 session_start();
 
-// Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header('location: login.php');
     exit;
@@ -10,31 +9,23 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Retrieve user data from the database based on the user ID
 $select = mysqli_query($conn, "SELECT * FROM `users` WHERE id = '$user_id'") or die('Query failed');
 $fetch = mysqli_fetch_assoc($select);
 
-// Check if user data is retrieved successfully
 if (!$fetch) {
-    // Redirect or handle the scenario where user data is not found
-    // For example, redirect to an error page
     header('location: error.php');
     exit;
 }
 
-// Initialize message array
 $message = [];
 
-// Process form submission when update profile button is clicked
 if (isset($_POST['update_profile'])) {
     $update_name = mysqli_real_escape_string($conn, $_POST['update_name']);
     $update_email = mysqli_real_escape_string($conn, $_POST['update_email']);
 
-    // Update user name and email in the database
     mysqli_query($conn, "UPDATE `users` SET name = '$update_name', email = '$update_email' WHERE id = '$user_id'") or die('Query failed');
 
-    // Handle password update if requested
-    $old_pass = $_POST['old_name']; // Assuming this is the current password
+    $old_pass = $_POST['old_name'];
     $update_pass = mysqli_real_escape_string($conn, md5($_POST['update_pass']));
     $new_pass = mysqli_real_escape_string($conn, md5($_POST['new_pass']));
     $confirm_pass = mysqli_real_escape_string($conn, md5($_POST['confirm_pass']));
@@ -45,26 +36,26 @@ if (isset($_POST['update_profile'])) {
         } elseif ($new_pass != $confirm_pass) {
             $message[] = 'New passwords do not match!';
         } else {
-            // Update password in the database
             mysqli_query($conn, "UPDATE `users` SET password = '$confirm_pass' WHERE id = '$user_id'") or die('Query failed');
             $message[] = 'Password updated successfully!';
         }
     }
 
-    // Handle profile picture update if an image is uploaded
     if (!empty($_FILES['update_image']['name'])) {
         $update_image_name = $_FILES['update_image']['name'];
         $update_image_size = $_FILES['update_image']['size'];
         $update_image_tmp_name = $_FILES['update_image']['tmp_name'];
         $update_image_folder = 'uploaded_img/' . $update_image_name;
 
+        if (!is_dir('uploaded_img')) {
+            mkdir('uploaded_img', 0777, true);
+        }
+
         if ($update_image_size > 0) {
             if ($update_image_size > 2000000) {
                 $message[] = 'Image size is too large (max 2MB).';
             } else {
-                // Move uploaded image to the desired folder
                 if (move_uploaded_file($update_image_tmp_name, $update_image_folder)) {
-                    // Update image path in the database
                     mysqli_query($conn, "UPDATE `users` SET image = '$update_image_name' WHERE id = '$user_id'") or die('Query failed');
                     $message[] = 'Image updated successfully!';
                 } else {
@@ -84,43 +75,144 @@ if (isset($_POST['update_profile'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Profile</title>
     <link rel="stylesheet" href="register.css">
+    <style>
+        :root {
+            --light-bg: #f4f4f4;
+            --white: #fff;
+            --black: #333;
+            --box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--light-bg);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .update-profile {
+            min-height: 100vh;
+            background-color: var(--light-bg); 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .update-profile form {
+            padding: 20px;
+            background-color: var(--white);
+            box-shadow: var(--box-shadow); 
+            text-align: center;
+            width: 700px;
+            border-radius: 5px;
+        }
+        .profile-img-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .profile-img-container img {
+            height: 200px;
+            width: 200px;
+            border-radius: 50%; 
+            object-fit: cover;
+            margin-bottom: 5px;
+        }
+        .update-profile form .flex {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+        .update-profile form .flex .inputBox {
+            width: 49%;
+        }
+        .update-profile form .flex .inputBox span {
+            text-align: left;
+            display: block;
+            margin-top: 15px;
+            font-size: 17px;
+            color: var(--black);
+        }
+        .update-profile form .flex .inputBox .box {
+            width: 100%;
+            border-radius: 5px;
+            background-color: var(--light-bg);
+            padding: 12px 14px;
+            font-size: 17px;
+            color: var(--black);
+            margin-top: 10px;
+        }
+        .message {
+            color: red;
+            margin-bottom: 10px;
+        }
+        .btn, .delete-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 17px;
+            margin-top: 20px;
+        }
+        .btn {
+            background-color: #28a745;
+            color: #fff;
+        }
+        .btn:hover {
+            background-color: #218838;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+            color: #fff;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+        @media (max-width: 650px) {
+            .update-profile form .flex {
+                flex-wrap: wrap;
+                gap: 0;
+            }
+            .update-profile form .flex .inputBox {
+                width: 100%; 
+            }
+        }
+    </style>
 </head>
 <body>
 
 <div class="update-profile">
-    <?php
-    if (!empty($fetch)) {
-        if ($fetch['image'] == '') {
-            echo '<img src="images/default-avatar.png">';
-        } else {
-            echo '<img src="uploaded_img/' . $fetch['image'] . '">';
-        }
-    }
-    ?>
-
     <form action="" method="post" enctype="multipart/form-data">
-        <?php
-        if (!empty($fetch)) {
-            if ($fetch['image'] == '') {
-                echo '<img src="images/default-avatar.png">';
-            } else {
-                echo '<img src="uploaded_img/' . $fetch['image'] . '">';
+        <div class="profile-img-container">
+            <?php
+            if (!empty($fetch)) {
+                if ($fetch['image'] == '') {
+                    echo '<img src="images/default-avatar.png">';
+                } else {
+                    echo '<img src="uploaded_img/' . $fetch['image'] . '">';
+                }
             }
-        }
-
+            ?>
+        </div>
+        <?php
         if (isset($message)) {
             foreach ($message as $msg) {
                 echo '<div class="message">' . $msg . '</div>';
             }
         }
         ?>
-
         <div class="flex">
             <div class="inputBox">
                 <span>Username:</span>
-                <input type="text" name="update_name" value="<?php echo $fetch['name'] ?>" class="box">
+                <input type="text" name="update_name" value="<?php echo $fetch['name'] ?>" class="box" required>
                 <span>Email:</span>
-                <input type="email" name="update_email" value="<?php echo $fetch['email'] ?>" class="box">
+                <input type="email" name="update_email" value="<?php echo $fetch['email'] ?>" class="box" required>
                 <span>Update Profile Picture:</span>
                 <input type="file" name="update_image" accept="image/jpg, image/jpeg, image/png" class="box">
             </div>
@@ -141,78 +233,3 @@ if (isset($_POST['update_profile'])) {
 
 </body>
 </html>
-
-<style>
-    /* Overall styling for the update profile section */
-.update-profile {
-    min-height: 100vh;
-    background-color: var(--light-bg); /* Background color */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-/* Styling for the form container within update profile section */
-.update-profile form {
-    padding: 20px;
-    background-color: var(--white); /* Background color */
-    box-shadow: var(--box-shadow); /* Box shadow for the form */
-    text-align: center;
-    width: 700px;
-    border-radius: 5px;
-}
-
-/* Styling for the profile image within the form */
-.update-profile form img {
-    height: 200px;
-    width: 200px;
-    border-radius: 50%; /* Rounded corners for circular image */
-    object-fit: cover; /* Maintain aspect ratio of the image */
-    margin-bottom: 5px;
-}
-
-/* Styling for the flex container within the form for layout */
-.update-profile form .flex {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    gap: 15px;
-}
-
-/* Styling for input boxes and their labels within the flex container */
-.update-profile form .flex .inputBox {
-    width: 49%;
-}
-
-.update-profile form .flex .inputBox span {
-    text-align: left;
-    display: block;
-    margin-top: 15px;
-    font-size: 17px;
-    color: var(--black);
-}
-
-.update-profile form .flex .inputBox .box {
-    width: 100%;
-    border-radius: 5px;
-    background-color: var(--light-bg);
-    padding: 12px 14px;
-    font-size: 17px;
-    color: var(--black);
-    margin-top: 10px;
-}
-
-/* Responsive design for smaller screens */
-@media (max-width: 650px) {
-    .update-profile form .flex {
-        flex-wrap: wrap;
-        gap: 0;
-    }
-    .update-profile form .flex .inputBox {
-        width: 100%; /* Full width for input box on smaller screens */
-    }
-}
-
-</style>
