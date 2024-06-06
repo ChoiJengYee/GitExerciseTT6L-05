@@ -175,6 +175,7 @@
 
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
+<<<<<<< HEAD
     let events = {};
 
     const fetchEvents = async () => {
@@ -184,6 +185,16 @@
             renderCalendar();
         } catch (error) {
             console.error('Error fetching events:', error);
+=======
+    const events = {
+        "6-14": {
+            description: "Suffocate Stage Show",
+            url: "event (1).html"
+        },
+        "6-7": {
+            description: "Mini concert",
+            url: "event (2).html"
+>>>>>>> a59267eb3ba55d6155fa1aa23b98b870a3810cc9
         }
     };
 
@@ -216,6 +227,7 @@
             day.addEventListener("click", () => {
                 const date = day.getAttribute("data-date");
                 if (events[date]) {
+<<<<<<< HEAD
                     const event = events[date];
                     eventInfo.innerHTML = `
                         <p><strong>Start Time:</strong> ${event.start_time || 'N/A'}</p>
@@ -225,6 +237,10 @@
                         <p><a href="${event.url}" target="_blank">Register Here</a></p>
                         ${event.images ? `<img src="${event.images}" alt="Event Image" style="max-width:100%; border-radius: 10px;">` : ''}
                     `;
+=======
+                    eventInfo.innerText = events[date].description;
+                    window.location.href = events[date].url;
+>>>>>>> a59267eb3ba55d6155fa1aa23b98b870a3810cc9
                 } else {
                     eventInfo.innerText = "No event for this day.";
                 }
@@ -251,6 +267,11 @@
         }
     };
 
+<<<<<<< HEAD
+=======
+    renderCalendar();
+
+>>>>>>> a59267eb3ba55d6155fa1aa23b98b870a3810cc9
     prevNextIcon.forEach(icon => {
         icon.addEventListener("click", () => {
             currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
@@ -263,6 +284,7 @@
                 date = new Date();
             }
 
+<<<<<<< HEAD
             fetchEvents();
         });
     });
@@ -274,3 +296,11 @@
 
 
 
+=======
+            renderCalendar();
+        });
+    });
+</script>
+</body>
+</html>
+>>>>>>> a59267eb3ba55d6155fa1aa23b98b870a3810cc9
