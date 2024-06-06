@@ -3,24 +3,19 @@ include 'config2.php';
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
+    $sql = "DELETE FROM events WHERE id = $id";
 
-    $sql = "DELETE FROM events WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-
-    $stmt->bind_param("i", $id);
-
-    if ($stmt->execute()) {
-        header("Location: event.php");
-        exit();
+    if ($conn->query($sql) === TRUE) {
+        echo "Event deleted successfully";
     } else {
-        echo "Error deleting record: " . $conn->error;
+        echo "Error: " . $conn->error;
     }
 
-    $stmt->close();
     $conn->close();
-} else {
+
     header("Location: event.php");
-    exit();
+    exit;
 }
 ?>
+
 

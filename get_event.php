@@ -1,23 +1,29 @@
 <?php
-include 'config2.php';
+include 'config2.php';  
 
-$month = isset($_GET['month']) ? intval($_GET['month']) : date('m');
-$year = isset($_GET['year']) ? intval($_GET['year']) : date('Y');
+header('Content-Type: application/json');
 
-$sql = "SELECT id, title, description, event_date FROM events WHERE MONTH(event_date) = ? AND YEAR(event_date) = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("ii", $month, $year);
-$stmt->execute();
-$result = $stmt->get_result();
+$sql = "SELECT event_date, description, registration_url, start_time, end_time, location, images FROM events";
+$result = $conn->query($sql);
 
 $events = array();
 while ($row = $result->fetch_assoc()) {
-    $events[] = $row;
+    $event_date = date('n-j', strtotime($row['event_date'])); 
+    $events[$event_date] = array(
+        'description' => $row['description'],
+        'url' => $row['registration_url'],
+        'start_time' => $row['start_time'],
+        'end_time' => $row['end_time'],
+        'location' => $row['location'],
+        'images' => $row['images']
+    );
 }
 
-$stmt->close();
-$conn->close();
-
-header('Content-Type: application/json');
 echo json_encode($events);
+
+$conn->close();
 ?>
+
+
+
+

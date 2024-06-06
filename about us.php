@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <div class="menu-item">
-                        <a href="EventCalendar.html">Event</a>
+                        <a href="EventCalendar.php">Event</a>
                     </div>
                     <div class="menu-item">
                         <a href="contact.php">Contact</a>

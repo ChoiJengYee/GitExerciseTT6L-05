@@ -1,24 +1,28 @@
 <?php
 include 'config2.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $title = $_POST['title'];
-    $description = $_POST['description'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $event_date = $_POST['event_date'];
+    $start_time = $_POST['start_time'];
+    $end_time = $_POST['end_time'];
+    $location = $_POST['location'];
+    $description = $_POST['description'];
+    $registration_url = $_POST['registration_url'];
+    $images = $_POST['images'];
 
-    $sql = "INSERT INTO events (title, description, event_date) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($sql);
+    $sql = "INSERT INTO events (event_date, start_time, end_time, location, description, registration_url, images)
+            VALUES ('$event_date', '$start_time', '$end_time', '$location', '$description', '$registration_url', '$images')";
 
-    $stmt->bind_param("sss", $title, $description, $event_date);
-
-    if ($stmt->execute()) {
-        header("Location: event.php");
-        exit(); 
+    if ($conn->query($sql) === TRUE) {
+        echo "New event created successfully";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
 
-    $stmt->close();
     $conn->close();
+
+    header("Location: event.php");
+    exit;
 }
 ?>
+

@@ -2,79 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Event</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        form {
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        label {
-            font-weight: bold;
-        }
-
-        input[type="text"],
-        textarea,
-        input[type="date"],
-        button {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        textarea {
-            height: 100px;
-        }
-
-        button {
-            background-color: #007BFF;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        button:focus {
-            outline: none;
-        }
-
-        a {
-            text-decoration: none;
-            color: #007BFF;
-        }
-
-        a:hover {
-            color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Add Event</h1>
-    <form action="add_event.php" method="post">
-        <label for="title">Title:</label><br>
-        <input type="text" id="title" name="title" required><br>
-        <label for="description">Description:</label><br>
-        <textarea id="description" name="description" required></textarea><br>
-        <label for="event_date">Event Date:</label><br>
-        <input type="date" id="event_date" name="event_date" required><br><br>
-        <button type="submit">Add Event</button>
+<div class="container">
+    <h1 class="mt-5">Add New Event</h1>
+    <form method="POST" action="add_event.php" class="mb-5">
+        <div class="form-group">
+            <label for="event_date">Event Date</label>
+            <input type="date" class="form-control" id="event_date" name="event_date" required>
+        </div>
+        <div class="form-group">
+            <label for="start_time">Start Time</label>
+            <input type="time" class="form-control" id="start_time" name="start_time" required>
+        </div>
+        <div class="form-group">
+            <label for="end_time">End Time</label>
+            <input type="time" class="form-control" id="end_time" name="end_time" required>
+        </div>
+        <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" class="form-control" id="location" name="location" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="registration_url">Registration URL</label>
+            <input type="url" class="form-control" id="registration_url" name="registration_url" required>
+        </div>
+        <div class="form-group">
+            <label for="images">Image</label>
+            <input type="url" class="form-control" id="images" name="images">
+        </div>
+        <button type="submit" class="btn btn-primary">Add Event</button>
     </form>
+</div>
 </body>
 </html>
