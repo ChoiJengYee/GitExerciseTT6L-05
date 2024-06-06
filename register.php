@@ -1,61 +1,47 @@
 <?php
 include 'config.php';
+session_start();
 
 $message = [];
 
 if (isset($_POST['submit'])) {
-    // Retrieve and sanitize form input
-    $name = isset($_POST['name']) ? mysqli_real_escape_string($conn, $_POST['name']) : '';
-    $email = isset($_POST['email']) ? mysqli_real_escape_string($conn, $_POST['email']) : '';
-    $password = isset($_POST['password']) ? mysqli_real_escape_string($conn, $_POST['password']) : '';
-    $cpassword = isset($_POST['cpassword']) ? mysqli_real_escape_string($conn, $_POST['cpassword']) : '';
-    $image = isset($_FILES['image']['name']) ? $_FILES['image']['name'] : '';
-    $image_size = isset($_FILES['image']['size']) ? $_FILES['image']['size'] : 0;
-    $image_tmp_name = isset($_FILES['image']['tmp_name']) ? $_FILES['image']['tmp_name'] : '';
+    $name = mysqli_real_escape_string($conn, $_POST['name']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $cpassword = mysqli_real_escape_string($conn, $_POST['cpassword']);
+    $image = $_FILES['image']['name'];
+    $image_size = $_FILES['image']['size'];
+    $image_tmp_name = $_FILES['image']['tmp_name'];
     $image_folder = 'uploaded_img/' . $image;
 
-    // Debugging output
-    echo "Name: $name<br>Email: $email<br>Password: $password<br>Confirm Password: $cpassword<br>Image Name: $image<br>";
-
-    // Check for required fields and file upload
     if (empty($name) || empty($email) || empty($password) || empty($cpassword) || empty($image)) {
         $message[] = 'All fields are required.';
     } else {
-        // Check if passwords match
-        if ($password != $cpassword) {
+        if ($password !== $cpassword) {
             $message[] = 'Passwords do not match!';
         } else {
-            // Check file size (max 2MB)
             if ($image_size > 2000000) {
                 $message[] = 'Image size is too large (max 2MB).';
             } else {
-                // Process file upload
-                $image_name = basename($image); // Get file name
-                $target_dir = $_SERVER['DOCUMENT_ROOT'] . '/myapp/uploaded_img/'; // Absolute path to destination directory
-                $target_path = $target_dir . $image_name; // Full path to target file
+                $target_dir = $_SERVER['DOCUMENT_ROOT'] . '/myapp/uploaded_img/';
+                $target_path = $target_dir . basename($image);
 
-                // Create the target directory if it doesn't exist
                 if (!file_exists($target_dir)) {
-                    mkdir($target_dir, 0777, true); // Create directory with full permissions (0777)
+                    mkdir($target_dir, 0777, true);
                 }
 
                 if (move_uploaded_file($image_tmp_name, $target_path)) {
-                    // File upload successful, proceed with database insertion
-                    $hashed_password = md5($password); // Use hash function (e.g., md5) for password
+                    $stmt = $conn->prepare("INSERT INTO `users` (name, email, password, image) VALUES (?, ?, ?, ?)");
+                    $stmt->bind_param("ssss", $name, $email, $password, $image);
 
-                    // Insert user data into database using prepared statement
-                    $stmt = mysqli_prepare($conn, "INSERT INTO `users` (name, email, password, image) VALUES (?, ?, ?, ?)");
-                    mysqli_stmt_bind_param($stmt, "ssss", $name, $email, $hashed_password, $image_name);
-
-                    if (mysqli_stmt_execute($stmt)) {
-                        // Registration successful, redirect to login page
-                        header('location: login.php');
-                        exit;
+                    if ($stmt->execute()) {
+                        header('Location: login.php');
+                        exit();
                     } else {
                         $message[] = 'Registration failed!';
                     }
 
-                    mysqli_stmt_close($stmt); // Close statement
+                    $stmt->close();
                 } else {
                     $message[] = 'File upload failed!';
                 }
@@ -83,7 +69,7 @@ if (isset($_POST['submit'])) {
         <?php
         if (!empty($message)) {
             foreach ($message as $msg) {
-                echo '<div class="message">'.$msg.'</div>';
+                echo '<div class="message">' . htmlspecialchars($msg) . '</div>';
             }
         }
         ?>
@@ -99,3 +85,4 @@ if (isset($_POST['submit'])) {
 
 </body>
 </html>
+

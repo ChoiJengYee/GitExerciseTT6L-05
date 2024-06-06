@@ -19,7 +19,7 @@ if (isset($_POST['login'])) {
         $admin = mysqli_fetch_assoc($result);
 
         if ($admin) {
-            if ($password === $admin['password']) { // Direct comparison
+            if ($password === $admin['password']) { 
                 $_SESSION['admin_logged_in'] = true;
                 header("Location: admin_dashboard.php");
                 exit();

@@ -1,26 +1,23 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "event";
+include 'config2.php';
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+$month = isset($_GET['month']) ? intval($_GET['month']) : date('m');
+$year = isset($_GET['year']) ? intval($_GET['year']) : date('Y');
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+$sql = "SELECT id, title, description, event_date FROM events WHERE MONTH(event_date) = ? AND YEAR(event_date) = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("ii", $month, $year);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$events = array();
+while ($row = $result->fetch_assoc()) {
+    $events[] = $row;
 }
 
-$event_sql = "SELECT * FROM events"; // Query to select all records from the events table
-$event_result = $conn->query($event_sql);
-$events = [];
-
-if ($event_result->num_rows > 0) {
-    while ($row = $event_result->fetch_assoc()) {
-        $events[] = $row;
-    }
-}
-
-echo json_encode(['events' => $events]); // Encode the events array as JSON and echo it
-
+$stmt->close();
 $conn->close();
+
+header('Content-Type: application/json');
+echo json_encode($events);
 ?>

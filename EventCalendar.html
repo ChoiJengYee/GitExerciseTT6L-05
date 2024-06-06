@@ -1,186 +1,414 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-    <head>
-        <meta charset="UTF-8">
-        <title>Event Calendar</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-                font-family: 'Poppins', sans-serif;
-            }
-            body {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                min-height: 100vh;
-                background: cornflowerblue;
-            }
-            .wrapper {
-                width: 450px;
-                background: white;
-                border-radius: 10px;
-            }
-            .wrapper header {
-                display: flex;
-                align-items: center;
-                padding: 25px 30px 10px;
-                justify-content: space-between;
-            }
-            header .current-date {
-                font-size: 1.45rem;
-                font-weight: 500;
-            }
-            header .icons span {
-                height: 38px;
-                width: 38px;
-                color:gray;
-                font-size: 1.9rem;
-                margin: 0 1px;
-                cursor: pointer;
-                text-align: center;
-                line-height: 38px;
-                border-radius: 50%;
-                background: white;
-            }
-            header .icons span:hover {
-                background: #f0f0f0;
-            }
-            header .icons span:last-child {
-                margin-right: -10px;
-            }
-            .calendar {
-                padding: 20px;
-            }
-            .calendar ul {
-                display: flex;
-                list-style: none;
-                flex-wrap: wrap;
-                text-align: center;
-            }
-            .calendar .days {
-                margin-bottom: 20px;
-                color:black;
-            }
-            .calendar .days li {
-                z-index: 1;
-                cursor: pointer;
-                margin-top: 30px;
-            }
-            .days li.inactive{
-              color: rgb(159, 155, 149);
-            }
-            .days li.active{
-                color:white;
-            }
-            .calendar .weeks li {
-                font-weight: 500;
-            }
-            .calendar ul li {
-                position: relative;
-                width: calc(100% / 7);
-            }
-            .calendar .days li::before {
-                position: absolute;
-                content: "";
-                height: 40px;
-                width: 40px;
-                top: 50%;
-                left: 50%;
-                z-index: -1;
-                border-radius: 50%;
-                transform: translate(-50%, -50%);
-                background: white;
-            }
-            .days li:hover::before {
-                background: rgb(250, 215, 249);
-            }
-            .days li.active::before{
-                background:rgb(47, 34, 159);
-            }
-        </style>
-    </head>
-    <body>
-        <div class="wrapper">
-            <header>
-                <p class="current-date"></p>
-                <div class="icons">
-                    <span id="prev" class="material-symbols-rounded">chevron_left</span>
-                    <span id="next" class="material-symbols-rounded">chevron_right</span>
-                </div>
-            </header>
-            <div class="calendar">
-                <ul class="weeks">
-                    <li>Sun</li>
-                    <li>Mon</li>
-                    <li>Tue</li>
-                    <li>Wed</li>
-                    <li>Thu</li>
-                    <li>Fri</li>
-                    <li>Sat</li>
-                </ul>
-                <ul class="days"></ul>
-            </div>
+<head>
+    <meta charset="UTF-8">
+    <title>Event Calendar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: cornflowerblue;
+}
+
+.wrapper {
+    width: 450px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    overflow: hidden;
+}
+
+.wrapper header {
+    display: flex;
+    align-items: center;
+    padding: 25px 30px 10px;
+    justify-content: space-between;
+    background: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+}
+
+header .current-date {
+    font-size: 1.45rem;
+    font-weight: 500;
+}
+
+header .icons span {
+    height: 38px;
+    width: 38px;
+    color: gray;
+    font-size: 1.9rem;
+    margin: 0 1px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 38px;
+    border-radius: 50%;
+    background: white;
+    transition: background 0.3s ease;
+}
+
+header .icons span:hover {
+    background: #f0f0f0;
+}
+
+header .icons span:last-child {
+    margin-right: -10px;
+}
+
+.calendar {
+    padding: 20px;
+}
+
+.calendar ul {
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.calendar .days {
+    margin-bottom: 20px;
+    color: black;
+}
+
+.calendar .days li {
+    z-index: 1;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: background 0.3s ease;
+}
+
+.days li.inactive {
+    color: rgb(159, 155, 149);
+}
+
+.days li.active {
+    color: white;
+}
+
+.calendar .weeks li {
+    font-weight: 500;
+}
+
+.calendar ul li {
+    position: relative;
+    width: calc(100% / 7);
+}
+
+.calendar .days li::before {
+    position: absolute;
+    content: "";
+    height: 40px;
+    width: 40px;
+    top: 50%;
+    left: 50%;
+    z-index: -1;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+}
+
+.days li:hover::before {
+    background: rgb(250, 215, 249);
+}
+
+.days li.active::before {
+    background: rgb(47, 34, 159);
+}
+
+.event-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    width: 300px;
+    text-align: center;
+}
+
+.event-popup.active {
+    display: block;
+}
+
+.event-popup input,
+.event-popup textarea {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.event-popup button {
+    padding: 10px 20px;
+    border: none;
+    background: cornflowerblue;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+    transition: background 0.3s ease;
+}
+
+.event-popup button:hover {
+    background: darkblue;
+}
+
+.event-popup .close-popup {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.upcoming-events {
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    margin-top: 20px;
+}
+
+.upcoming-events h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.upcoming-events .event-list {
+    list-style: none;
+}
+
+.upcoming-events .event-list li {
+    margin-bottom: 5px;
+}
+
+.upcoming-events .event-list li:last-child {
+    margin-bottom: 0;
+}
+
+.back-to-dashboard {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.back-to-dashboard button {
+    padding: 10px 20px;
+    background-color: cornflowerblue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.back-to-dashboard button:hover {
+    background-color: darkblue;
+}
+
+.event-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.event-table th, .event-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.event-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+.event-table td {
+    vertical-align: top;
+}
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="back-to-dashboard">
+            <button onclick="window.location.href = 'about us.php';">Back to Dashboard</button>
         </div>
-        <script>
-            const currentDate = document.querySelector(".current-date"),
-            daysTag = document.querySelector(".days"),
-            prevNextIcon = document.querySelectorAll(".icons span");
-            
+        <header>
+            <p class="current-date"></p>
+            <div class="icons">
+                <span id="prev" class="material-symbols-rounded">chevron_left</span>
+                <span id="next" class="material-symbols-rounded">chevron_right</span>
+            </div>
+        </header>
+        <div class="calendar">
+            <ul class="weeks">
+                <li>Sun</li>
+                <li>Mon</li>
+                <li>Tue</li>
+                <li>Wed</li>
+                <li>Thu</li>
+                <li>Fri</li>
+                <li>Sat</li>
+            </ul>
+            <ul class="days"></ul>
+        </div>
+        <div class="upcoming-events">
+            <h2>Upcoming Events</h2>
+            <table class="event-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody class="event-list"></tbody>
+            </table>
+        </div>        
+    <div class="event-popup" id="event-popup">
+        <button class="close-popup" id="close-popup">×</button>
+        <h3>Events for <span id="popup-date"></span></h3>
+        <ul class="popup-event-list"></ul>
+    </div>   
+</div>
+
+    <script>
+        const currentDate = document.querySelector(".current-date"),
+        daysTag = document.querySelector(".days"),
+        eventList = document.querySelector(".event-list"),
+        popupEventList = document.querySelector(".popup-event-list"),
+        prevNextIcon = document.querySelectorAll(".icons span"),
+        eventPopup = document.getElementById("event-popup"),
+        closePopupButton = document.getElementById("close-popup"),
+        popupDate = document.getElementById("popup-date");
+
             let date = new Date(),
             currYear = date.getFullYear(),
             currMonth = date.getMonth();
 
-            const months = ["January","February","March","April","May","June","July","August","September","Octorber","November","December"];
- 
-            const renderCalendar = () => {
-               let firstDayofMonth = new Date(currYear, currMonth, 1).getDay(),
-               lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate(),
-               lastDayofMonth = new Date(currYear, currMonth, lastDateofMonth).getDay(),
-               lastDateofLastMonth = new Date(currYear, currMonth, 0).getDate();
-               let liTag = "";
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-               for (let i = firstDayofMonth; i > 0; i--) {
-                  liTag += `<li class="inactive">${lastDateofLastMonth - i + 1}</li>`;
-               }
-              
-               for (let i = 1; i <= lastDateofMonth; i++) {
-                  let isToday = i === date.getDate() && currMonth === new Date(). getMonth()
-                                && currYear === new Date().getFullYear() ? "active" : "";
-                  liTag += `<li class="${isToday}">${i}</li>`;
-               }
+        const renderCalendar = () => {
+            let firstDayofMonth = new Date(currYear, currMonth, 1).getDay(),
+            lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate(),
+            lastDayofMonth = new Date(currYear, currMonth, lastDateofMonth).getDay(),
+            lastDateofLastMonth = new Date(currYear, currMonth, 0).getDate();
+            let liTag = "";
 
-               for (let i = lastDayofMonth; i < 6; i++) {
-                  liTag += `<li class="inactive">${i - lastDayofMonth + 1}</li>`;
-               }
-                
-               currentDate.innerText = `${months[currMonth]} ${currYear}`;
-               daysTag.innerHTML = liTag;
-            }
-            renderCalendar();
+    for (let i = firstDayofMonth; i > 0; i--) {
+        liTag += `<li class="inactive">${lastDateofLastMonth - i + 1}</li>`;
+    }
 
-            prevNextIcon.forEach(icon => {
-                icon.addEventListener("click", () => {
-                   currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
+    for (let i = 1; i <= lastDateofMonth; i++) {
+        let isToday = i === date.getDate() && currMonth === new Date().getMonth()
+            && currYear === new Date().getFullYear() ? "active" : "";
+        liTag += `<li class="${isToday}" data-date="${currYear}-${String(currMonth + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}">${i}</li>`;
+    }
 
-                   if(currMonth < 0 || currMonth > 11) {
-                      date = new Date(currYear, currMonth);
-                      currYear = date.getFullYear();
-                      currMonth = date.getMonth();
-                   }else{
-                      date = new Date ();
-                   }
+    for (let i = lastDayofMonth; i < 6; i++) {
+        liTag += `<li class="inactive">${i - lastDayofMonth + 1}</li>`;
+    }
 
+    currentDate.innerText = `${months[currMonth]} ${currYear}`;
+    daysTag.innerHTML = liTag;
 
-                   renderCalendar();
-                });
+    fetchEvents();
+}
+
+const fetchEvents = () => {
+    fetch(`get_event.php`)
+        .then(response => response.json())
+        .then(data => {
+            const nextMonthEvents = data.filter(event => {
+                const eventDate = new Date(event.event_date);
+                const nextMonth = new Date();
+                nextMonth.setMonth(nextMonth.getMonth() + 1);
+                return eventDate >= date && eventDate <= nextMonth;
             });
-                
-            
-         </script>
-    </body>
+
+            updateUpcomingEvents(nextMonthEvents);
+        })
+        .catch(error => console.error('Error fetching events:', error));
+}
+
+const updateUpcomingEvents = (events) => {
+    const eventTable = document.querySelector(".event-table tbody");
+    eventTable.innerHTML = ""; 
+    events.forEach(event => {
+        const eventDate = new Date(event.event_date);
+        if (eventDate >= date) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${event.title}</td>
+                <td>${eventDate.toDateString()}</td>
+            `;
+            eventTable.appendChild(row);
+        }
+    });
+}
+
+const showPopup = (date) => {
+    const formattedDate = date.toDateString();
+    popupDate.textContent = formattedDate;
+    popupEventList.innerHTML = "";
+    const events = Array.from(daysTag.querySelectorAll(`li[data-date="${date.toISOString().split('T')[0]}"] .event`));
+    events.forEach(eventElement => {
+        const title = eventElement.textContent;
+        const description = eventElement.parentElement.getAttribute('data-description');
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `<strong>${title}</strong>: ${description}`;
+        popupEventList.appendChild(listItem);
+    });
+    eventPopup.classList.add("active");
+}
+
+renderCalendar();
+
+prevNextIcon.forEach(icon => {
+    icon.addEventListener("click", () => {
+        currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
+
+        if (currMonth < 0 || currMonth > 11) {
+            date = new Date(currYear, currMonth);
+            currYear = date.getFullYear();
+            currMonth = date.getMonth();
+        } else {
+            date = new Date();
+        }
+
+        renderCalendar();
+    });
+});
+
+daysTag.addEventListener("click", (e) => {
+    if (e.target.classList.contains("event-day")) {
+        const dayElement = e.target;
+        const date = new Date(dayElement.getAttribute('data-date'));
+        showPopup(date);
+    }
+});
+
+closePopupButton.addEventListener("click", () => {
+    eventPopup.classList.remove("active");
+});
+
+    </script>
+</body>
 </html>

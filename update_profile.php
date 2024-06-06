@@ -11,7 +11,7 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 // Retrieve user data from the database based on the user ID
-$select = mysqli_query($conn, "SELECT * FROM `user_form` WHERE id = '$user_id'") or die('Query failed');
+$select = mysqli_query($conn, "SELECT * FROM `users` WHERE id = '$user_id'") or die('Query failed');
 $fetch = mysqli_fetch_assoc($select);
 
 // Check if user data is retrieved successfully
@@ -31,7 +31,7 @@ if (isset($_POST['update_profile'])) {
     $update_email = mysqli_real_escape_string($conn, $_POST['update_email']);
 
     // Update user name and email in the database
-    mysqli_query($conn, "UPDATE `user_form` SET name = '$update_name', email = '$update_email' WHERE id = '$user_id'") or die('Query failed');
+    mysqli_query($conn, "UPDATE `users` SET name = '$update_name', email = '$update_email' WHERE id = '$user_id'") or die('Query failed');
 
     // Handle password update if requested
     $old_pass = $_POST['old_name']; // Assuming this is the current password
@@ -46,7 +46,7 @@ if (isset($_POST['update_profile'])) {
             $message[] = 'New passwords do not match!';
         } else {
             // Update password in the database
-            mysqli_query($conn, "UPDATE `user_form` SET password = '$confirm_pass' WHERE id = '$user_id'") or die('Query failed');
+            mysqli_query($conn, "UPDATE `users` SET password = '$confirm_pass' WHERE id = '$user_id'") or die('Query failed');
             $message[] = 'Password updated successfully!';
         }
     }
@@ -65,7 +65,7 @@ if (isset($_POST['update_profile'])) {
                 // Move uploaded image to the desired folder
                 if (move_uploaded_file($update_image_tmp_name, $update_image_folder)) {
                     // Update image path in the database
-                    mysqli_query($conn, "UPDATE `user_form` SET image = '$update_image_name' WHERE id = '$user_id'") or die('Query failed');
+                    mysqli_query($conn, "UPDATE `users` SET image = '$update_image_name' WHERE id = '$user_id'") or die('Query failed');
                     $message[] = 'Image updated successfully!';
                 } else {
                     $message[] = 'Failed to upload image!';
@@ -135,7 +135,7 @@ if (isset($_POST['update_profile'])) {
             </div>
         </div>
         <input type="submit" value="Update Profile" name="update_profile" class="btn">
-        <a href="about.html" class="delete-btn">Go Back</a>
+        <a href="about us.php" class="delete-btn">Go Back</a>
     </form>
 </div>
 

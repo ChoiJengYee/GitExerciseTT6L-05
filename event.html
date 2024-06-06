@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Management</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .button {
+            padding: 10px 20px;
+            border: none;
+            background: cornflowerblue;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .button:hover {
+            background: darkblue;
+        }
+    </style>
+</head>
+<body>
+    <h2>Event Management</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="event-list">
+            <!-- Event data will be loaded here -->
+        </tbody>
+    </table>
+
+    <div class="button-container">
+        <button class="button" onclick="location.href='create_event.html';">Add Event</button>
+    </div>
+
+    <script>
+        // Fetch events and populate the table
+        fetchEvents();
+
+        function fetchEvents() {
+            fetch('get_events.php')
+            .then(response => response.json())
+            .then(data => {
+                const eventList = document.getElementById('event-list');
+                eventList.innerHTML = '';
+
+                data.forEach(event => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${event.title}</td>
+                        <td>${event.description}</td>
+                        <td>${new Date(event.event_date).toLocaleDateString()}</td>
+                        <td>
+                            <button class="button" onclick="editEvent(${event.id})">Edit</button>
+                            <button class="button" onclick="deleteEvent(${event.id})">Delete</button>
+                        </td>
+                    `;
+                    eventList.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching events:', error));
+        }
+
+        function editEvent(id) {
+            window.location.href = `edit_event.html?id=${id}`;
+        }
+
+        function deleteEvent(id) {
+            if (confirm('Are you sure you want to delete this event?')) {
+                fetch('delete_event.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `id=${id}`
+                })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                    fetchEvents();
+                })
+                .catch(error => console.error('Error deleting event:', error));
+            }
+        }
+    </script>
+</body>
+</html>
+

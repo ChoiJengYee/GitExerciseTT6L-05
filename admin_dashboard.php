@@ -19,11 +19,11 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     <div class="container">
         <h2>Admin Dashboard</h2>
         <div class="buttons">
-            <a href="location.html" class="button">Manage Locations</a>
             <a href="manage_user.php" class="button">Manage Users</a>
-            <a href="event.html" class="button">Manage Events</a>
-            <a href="manage_feedback.php" class="button">Manage Feedback</a>
-            <a href="logout.php" class="button logout">Logout</a>
+            <a href="event.php" class="button">Manage Events</a>
+            <a href="manage_feedback.php" class="button">Manage Comment</a>
+            <a href="manage_message.php" class="button">Manage Message</a>
+            <a href="admin_logout.php" class="button logout">Logout</a>
         </div>
     </div>
 </body>

@@ -1,47 +1,67 @@
 <?php
-if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
-    $event_Id = $_POST['event_id'];
-    $event_Name = $_POST['event_name'];
-    $event_Date = $_POST['event_date'];
-    $event_Description = $_POST['event_description'];
-    $event_Location = $_POST['event_location'] ;
-    $event_Contact = $_POST['event_contact'];
+include 'config2.php';
 
-    $entry_type = 'event';
+if(isset($_GET['id'])) {
+    $event_id = $_GET['id'];
 
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "event";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+    $sql = "SELECT * FROM events WHERE id = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $event_id);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    
+    if(mysqli_num_rows($result) > 0) {
+        $event = mysqli_fetch_assoc($result);
+    } else {
+        echo "Event not found.";
+        exit();
     }
+} else {
+    echo "Event ID not provided.";
+    exit();
+}
 
-    $table = ($entry_type == 'event') ? 'events' : '';
+if(isset($_POST['update_event'])) {
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+    $event_date = $_POST['event_date'];
 
-    if(empty($table)) {
-        die("Invalid entry type");
-    }
-
-    $sql = "UPDATE $table SET name=?, date=?, description=?, location=?, contact=? WHERE id=?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssi", $event_Name, $event_Date, $event_Description, $event_Location, $event_Contact, $event_Id);
-
-    if ($stmt->execute() === TRUE) {
-        header("Location: event.html");
+    $sql = "UPDATE events SET title = ?, description = ?, event_date = ? WHERE id = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "sssi", $title, $description, $event_date, $event_id);
+    
+    if(mysqli_stmt_execute($stmt)) {
+        header("Location: event.php");
         exit();
     } else {
-        echo "Error: " . $stmt->error;
+        echo "Error updating event: " . mysqli_error($conn);
     }
 
-    $stmt->close();
-    $conn->close();
-} else {
-    header("Location: event.html");
-    exit();
+    mysqli_stmt_close($stmt);
 }
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Event</title>
+    <!-- Include any CSS stylesheets here -->
+</head>
+<body>
+    <h1>Edit Event</h1>
+    <form action="" method="post">
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" value="<?php echo $event['title']; ?>"><br>
+        
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description"><?php echo $event['description']; ?></textarea><br>
+        
+        <label for="event_date">Event Date:</label><br>
+        <input type="date" id="event_date" name="event_date" value="<?php echo $event['event_date']; ?>"><br>
+        
+        <input type="submit" name="update_event" value="Update Event">
+    </form>
+</body>
+</html>

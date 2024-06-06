@@ -24,7 +24,7 @@
                     <div class="menu-item">
                         Map
                         <div class="submenu">
-                            <a href="#">Interactive Map</a>
+                            <a href="mmu_cyb_interactive_map.html">Interactive Map</a>
                             <a href="#">Comments</a>
                             <a href="#">Where U Are?</a>
                         </div>
@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <div class="menu-item">
-                        <a href="#">Event</a>
+                        <a href="EventCalendar.html">Event</a>
                     </div>
                     <div class="menu-item">
                         <a href="contact.php">Contact</a>
