@@ -25,12 +25,11 @@
                         Map
                         <div class="submenu">
                             <a href="mmu_cyb_interactive_map.html">Interactive Map</a>
-                            <a href="#">Comments</a>
                             <a href="#">Where U Are?</a>
                         </div>
                     </div>
                     <div class="menu-item">
-                        <a href="#">Bookings</a>
+                        <a href="testmap.html">Bookings</a>
                     </div>
                     <div class="menu-item">
                         Location
