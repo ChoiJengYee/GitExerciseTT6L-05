@@ -28,7 +28,7 @@ $result = $conn->query($sql);
                 <th>Description</th>
                 <th>Registration URL</th>
                 <th>Image</th>
-                <th>Action</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -44,7 +44,10 @@ $result = $conn->query($sql);
                     echo "<td>" . $row['description'] . "</td>";
                     echo "<td><a href='" . $row['registration_url'] . "' target='_blank'>Link</a></td>";
                     echo "<td><img src='" . $row['images'] . "' alt='Event Image' style='max-width: 100px;'></td>";
-                    echo "<td><a href='delete_event.php?id=" . $row['id'] . "' class='btn btn-danger btn-sm'>Delete</a></td>";
+                    echo "<td>";
+                    echo "<a href='edit_event.php?id=" . $row['id'] . "' class='btn btn-warning btn-sm'>Edit</a> ";
+                    echo "<a href='delete_event.php?id=" . $row['id'] . "' class='btn btn-danger btn-sm'>Delete</a>";
+                    echo "</td>";
                     echo "</tr>";
                 }
             } else {
@@ -60,4 +63,5 @@ $result = $conn->query($sql);
 <?php
 $conn->close();
 ?>
+
 

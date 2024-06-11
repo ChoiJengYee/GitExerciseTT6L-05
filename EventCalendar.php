@@ -222,7 +222,7 @@
                         <p><strong>End Time:</strong> ${event.end_time || 'N/A'}</p>
                         <p><strong>Location:</strong> ${event.location || 'N/A'}</p>
                         <p><strong>Description:</strong> ${event.description}</p>
-                        <p><a href="${event.url}" target="_blank">Register Here</a></p>
+                        ${event.url ? `<p><a href="${event.url}" target="_blank">Register Here</a></p>` : ''}
                         ${event.images ? `<img src="${event.images}" alt="Event Image" style="max-width:100%; border-radius: 10px;">` : ''}
                     `;
                 } else {
