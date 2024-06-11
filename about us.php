@@ -24,7 +24,7 @@
                     <div class="menu-item">
                         Map
                         <div class="submenu">
-                            <a href="mmu_cyb_interactive_map.html">Interactive Map</a>
+                            <a href="index.php">Interactive Map</a>
                             <a href="#">Where U Are?</a>
                         </div>
                     </div>
@@ -92,19 +92,11 @@
         <div class="foot">
             <div class="footer-content">
                 <div class="footlinks">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="register.php">Register</a></li>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="contact.html">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="footlinks">
-                    <h4>Connect</h4>
+                    <h4>Connect to MMU Social Media</h4>
                     <div class="social">
-                        <a href="https://www.facebook.com/mmumalaysia" target="_blank"><i class='bx bxl-facebook'></i></a>
-                        <a href="https://www.instagram.com/mmumalaysia/" target="_blank"><i class='bx bxl-instagram' ></i></a>
-                        <a href="https://www.youtube.com/@mmumalaysiatv" target="_blank"><i class='bx bxl-youtube' ></i></a>
+                        <a href="https://www.facebook.com/mmumalaysia" target="_blank"><img src="facebook-logo.jpg" alt="Facebook Logo"></a>
+                        <a href="https://www.instagram.com/mmumalaysia/" target="_blank"><img src="ig-logo.png" alt="Instagram Logo"></a>
+                        <a href="https://www.youtube.com/@mmumalaysiatv" target="_blank"><img src="youtube-logo.png" alt="YouTube Logo"></a>
                     </div>
                 </div>
             </div>
@@ -118,37 +110,39 @@
 
 
 <style>
-/* General styles */
+/* Reset and General Styles */
 * {
     margin: 0;
     padding: 0;
-    font-family: 'Poppins', sans-serif;
     box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
 }
 
 /* Navigation */
 nav {
-    background: #333;
-    width: 100%;
-    padding: 10px 10%;
+    background-color: #333;
+    padding: 20px 10%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: relative;
 }
 
 .logo {
     width: 120px;
 }
 
-/* Menu Container */
 .menu-container {
-    background-color: #548df7; /* Blue background */
-    padding: 10px; /* Padding around the menu */
-    border-radius: 8px; /* Rounded corners */
+    background-color: #548df7;
+    padding: 20px;
+    border-radius: 8px;
 }
 
-/* Menu */
 .menu {
     display: flex;
     justify-content: space-between;
@@ -161,83 +155,88 @@ nav {
     padding: 14px 16px;
     color: white;
     cursor: pointer;
-}
-
-.submenu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    max-height: 300px;
-    overflow-y: auto;
-}
-
-.submenu a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-}
-
-.submenu a:hover {
-    background-color: #ddd;
-}
-
-.menu-item:hover .submenu {
-    display: block;
+    transition: background-color 0.3s ease;
 }
 
 .menu-item:hover {
     background-color: #416ab6;
 }
 
+/* Submenu */
+.submenu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%; /* Center the submenu horizontally */
+    transform: translateX(-50%); /* Center the submenu horizontally */
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    max-height: 300px;
+    overflow-y: auto;
+    opacity: 0; /* Hide submenu initially */
+    pointer-events: none; /* Disable pointer events initially */
+    transition: opacity 0.3s ease; /* Add transition for smoother appearance */
+}
+
+.menu-item:hover .submenu {
+    display: block;
+    opacity: 1; /* Ensure submenu is fully visible */
+    pointer-events: auto; /* Enable pointer events */
+    transition-delay: 0.2s; /* Add a delay before showing submenu */
+}
+
+.menu-item:not(:hover) .submenu {
+    opacity: 0; /* Hide submenu with reduced opacity */
+    pointer-events: none; /* Disable pointer events to prevent interaction */
+}
+
+.submenu a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    transition: background-color 0.3s ease;
+}
+
+.submenu a:hover {
+    background-color: #f1f1f1;
+}
+
 /* About Us Section */
 .about {
-    width: 100%;
-    padding: 78px 0px;
+    padding: 100px 0;
+    text-align: center;
 }
 
 .about img {
+    max-width: 100%;
     height: auto;
-    width: 400px;
+    margin-bottom: 30px;
+    border-radius: 8px;
 }
 
 .abt-text {
-    width: 500px;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .abt-text h1 {
-    font-size: 70px;
-    color: rgb(0, 0, 0);
+    font-size: 48px;
+    color: #333;
     margin-bottom: 20px;
-    letter-spacing: 1px;
 }
 
 .abt-text h1 span {
     color: #fc0050;
-    letter-spacing: 1px;
 }
 
 .abt-text p {
-    color: rgb(0, 0, 0);
-    font-size: 24px;
-    margin-bottom: 45px;
-    line-height: 30px;
-    letter-spacing: 1px;
-}
-
-.main {
-    width: 1130px;
-    max-width: 95%;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+    color: #666;
+    font-size: 18px;
+    margin-bottom: 40px;
 }
 
 .connectbtn {
@@ -246,199 +245,132 @@ nav {
     font-size: 18px;
     color: white;
     font-weight: bold;
-    padding: 13px 30px;
+    padding: 15px 40px;
     border-radius: 30px;
-    transition: all 0.4s ease;
+    transition: background-color 0.3s ease;
     text-decoration: none;
 }
 
 .connectbtn:hover {
-    background-color: white;
-    color: #fc0050;
-    border: 2px solid #fc0050;
+    background-color: #e60046;
+    transform: translateY(-2px);
 }
 
 /* Footer */
-
-.footer{
-    margin-top: 80px;
+.footer {
     background-color: #333;
+    color: #fff;
+    padding: 50px 0;
+    text-align: center;
 }
 
-.foot{
-    padding: 20px 0;
-}
-
-.footer-content{
+.footer-content {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.footlinks h4{
-    margin-top: 30px;
-    font-size: 20px;
-    font-weight: 600;
-    color: white;
+.footlinks {
     margin-bottom: 30px;
-    position: relative;
 }
 
+.footlinks h4 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    position: relative;
+    color: #fc0050;
+}
 
-.footlinks h4::before{
+.footlinks h4::before {
     content: "";
     position: absolute;
     height: 2px;
-    width: 70px;
+    width: 50px;
     left: 0;
-    bottom: -7px;
-    background: white;
+    bottom: -5px;
+    background: #fc0050;
 }
 
-.footlinks ul li{
-    margin-bottom: 15px;
+.footlinks ul li {
+    margin-bottom: 10px;
 }
 
-.footlinks ul li a{
-    font-size: 17px;
-    color: #dddddd;
-    display: block;
-    transition: ease 0.30s;
+.footlinks ul li a {
+    color: #ccc;
+    transition: color 0.3s ease;
 }
 
-.footlinks ul li a:hover{
-    transform: translate(6px);
-    color: white;
+.footlinks ul li a:hover {
+    color: #fff;
 }
 
-.social a{
-    font-size: 25px;
-    margin: 4px;
-    height: 40px;
-    width: 40px;
-    color: rgb(21, 74, 74);
-    background-color: white;
+/* Social Media Icons */
+.social a {
+    font-size: 20px;
+    width: 40px; /* Adjusted width */
+    height: 40px; /* Adjusted height */
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    border-radius: 20px;
-    transition: ease 0.30s;
+    color: #fff;
+    border-radius: 50%;
+    background-color: #416ab6;
+    margin: 0 5px;
+    transition: background-color 0.3s ease;
 }
 
-.social a:hover{
-    transform: scale(1.2);
-}
-
-.end{
-    text-align: center;
-    padding-top: 60px;
-    padding-bottom: 12px;
-}
-
-.end p{
-    font-size: 15px;
-    color: white;
-    letter-spacing: 1px;
-    font-weight: 300;
-}
-
-/* About Us */
-
-.aboutbody{
-    background-color: #191919;
-}
-
-.about{
-    width: 100%;
-    padding: 78px 0px;
-}
-
-.about img{
-    height: auto;
-    width: 400px;
-}
-
-.abt-text{
-    width: 500px;
-}
-
-.abt-text h1{
-    font-size: 70px;
-    color: rgb(0, 0, 0);
-    margin-bottom: 20px;
-    letter-spacing: 1px;
-}
-
-.abt-text h1 span{
-    color: #fc0050;
-    letter-spacing: 1px;
-}
-
-.abt-text p{
-    color: rgb(0, 0, 0);
-    font-size: 24px;
-    margin-bottom: 45px;
-    line-height: 30px;
-    letter-spacing: 1px;
-}
-
-.main{
-    width: 1130px;
-    max-width: 95%;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
-
-.connectbtn{
+.social img {
+    width: 25px; /* Adjusted width */
+    height: 25px; /* Adjusted height */
     display: inline-block;
-    background-color: #fc0050;
-    font-size: 18px;
-    color: white;
-    font-weight: bold;
-    padding: 13px 30px;
-    border-radius: 30px;
-    transition: ease 0.4s;
-    border: 2px solid transparent;
-    letter-spacing: 1px;
+    margin: 0 5px;
 }
 
-.connectbtn:hover{
-    background-color: transparent;
-    border: 2px solid #fc0050;
-    transform: scale(1.1);
+.social a:hover {
+    background-color: #548df7;
 }
-
-.connect-section{
-    margin-top: 26px;
-}
-
-
-.social-icons a{
-    height: 40px;
-    width: 40px;
-    margin: 4px;
-    font-size: 30px;
-    color: #101010;
-    background-color: rgb(0, 53, 59);
-    border-radius: 20px;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    transition: ease 0.30s;
-}
-
-.social-icons a:hover{
-    transform: scale(1.2);
-}
-
-
 
 .end {
-    padding: 10px 0;
+    margin-top: 30px;
     font-size: 14px;
+    color: #ccc;
+}
+
+/* Responsive Design */
+@media only screen and (max-width: 768px) {
+    nav {
+        padding: 20px 5%;
+    }
+
+    .logo {
+        width: 100px;
+    }
+
+    .menu-item {
+        padding: 14px 10px;
+    }
+
+    .submenu {
+        top: calc(100% + 5px);
+    }
+
+    .footer-content {
+        padding: 0 20px;
+    }
+}
+
+/* Accessibility */
+.abt-text h1,
+.abt-text p {
+    color: #333;
+}
+
+.footer,
+.footer a {
+    color: #fff;
 }
 
 </style>

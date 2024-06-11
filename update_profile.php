@@ -75,115 +75,145 @@ if (isset($_POST['update_profile'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Profile</title>
     <link rel="stylesheet" href="register.css">
-    <style>
-        :root {
-            --light-bg: #f4f4f4;
-            --white: #fff;
-            --black: #333;
-            --box-shadow: 0 0 15px rgba(0,0,0,0.1);
-        }
-        body {
-            font-family: Arial, sans-serif;
-            background-color: var(--light-bg);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .update-profile {
-            min-height: 100vh;
-            background-color: var(--light-bg); 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .update-profile form {
-            padding: 20px;
-            background-color: var(--white);
-            box-shadow: var(--box-shadow); 
-            text-align: center;
-            width: 700px;
-            border-radius: 5px;
-        }
-        .profile-img-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .profile-img-container img {
-            height: 200px;
-            width: 200px;
-            border-radius: 50%; 
-            object-fit: cover;
-            margin-bottom: 5px;
-        }
-        .update-profile form .flex {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            gap: 15px;
-        }
-        .update-profile form .flex .inputBox {
-            width: 49%;
-        }
-        .update-profile form .flex .inputBox span {
-            text-align: left;
-            display: block;
-            margin-top: 15px;
-            font-size: 17px;
-            color: var(--black);
-        }
-        .update-profile form .flex .inputBox .box {
-            width: 100%;
-            border-radius: 5px;
-            background-color: var(--light-bg);
-            padding: 12px 14px;
-            font-size: 17px;
-            color: var(--black);
-            margin-top: 10px;
-        }
-        .message {
-            color: red;
-            margin-bottom: 10px;
-        }
-        .btn, .delete-btn {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            font-size: 17px;
-            margin-top: 20px;
-        }
-        .btn {
-            background-color: #28a745;
-            color: #fff;
-        }
-        .btn:hover {
-            background-color: #218838;
-        }
-        .delete-btn {
-            background-color: #dc3545;
-            color: #fff;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .delete-btn:hover {
-            background-color: #c82333;
-        }
-        @media (max-width: 650px) {
-            .update-profile form .flex {
-                flex-wrap: wrap;
-                gap: 0;
-            }
-            .update-profile form .flex .inputBox {
-                width: 100%; 
-            }
-        }
-    </style>
+<style>
+/* Define root variables */
+:root {
+    --light-bg: #f4f4f4;
+    --white: #fff;
+    --black: #333;
+    --box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+/* Body styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--light-bg);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Form container */
+.update-profile {
+    min-height: 100vh;
+    background-color: var(--light-bg); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Form styles */
+.update-profile form {
+    padding: 20px;
+    background-color: var(--white);
+    box-shadow: var(--box-shadow); 
+    text-align: center;
+    width: 700px;
+    border-radius: 5px;
+}
+
+/* Profile image container */
+.profile-img-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Profile image */
+.profile-img-container img {
+    height: 200px;
+    width: 200px;
+    border-radius: 50%; 
+    object-fit: cover;
+    margin-bottom: 5px;
+}
+
+/* Form flex layout */
+.update-profile form .flex {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 15px;
+}
+
+/* Input box */
+.update-profile form .flex .inputBox {
+    width: 49%;
+}
+
+/* Input box label */
+.update-profile form .flex .inputBox span {
+    text-align: left;
+    display: block;
+    margin-top: 15px;
+    font-size: 17px;
+    color: var(--black);
+}
+
+/* Input field */
+.update-profile form .flex .inputBox .box {
+    width: 100%;
+    border-radius: 5px;
+    background-color: var(--light-bg);
+    padding: 12px 14px;
+    font-size: 17px;
+    color: var(--black);
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+/* Error message */
+.message {
+    color: white;
+    margin-bottom: 10px;
+}
+
+/* Primary button */
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 17px;
+    margin-top: 20px;
+    background-color: #28a745;
+    color: #fff;
+}
+
+/* Primary button hover */
+.btn:hover {
+    background-color: #218838;
+}
+
+/* Delete button */
+.delete-btn {
+    background-color: #dc3545;
+    color: #fff;
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* Delete button hover */
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+/* Responsive design */
+@media (max-width: 650px) {
+    .update-profile form .flex {
+        flex-wrap: wrap;
+        gap: 0;
+    }
+    .update-profile form .flex .inputBox {
+        width: 100%; 
+    }
+}
+</style>
 </head>
 <body>
 
