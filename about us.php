@@ -22,14 +22,10 @@
                         <a href="home.php">Home</a>
                     </div>
                     <div class="menu-item">
-                        Map
-                        <div class="submenu">
-                            <a href="index.php">Interactive Map</a>
-                            <a href="#">Where U Are?</a>
-                        </div>
+                        <a href="index.php">Map</a>
                     </div>
                     <div class="menu-item">
-                        <a href="testmap.html">Bookings</a>
+                        <a href="tripmap.html">Booking</a>
                     </div>
                     <div class="menu-item">
                         Location

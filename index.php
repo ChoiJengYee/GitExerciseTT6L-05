@@ -4,16 +4,74 @@
     <title>MMU Cyberjaya Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
-        body {
-            font-family: 'Times New Roman', Times, serif;
+        body, html {
+            height: 100%;
             margin: 0;
             padding: 0;
         }
         #map {
-            height: 500px;
+            height: 100%;
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #333;
         }
         .comment-form {
             display: none;
+            margin-top: 10px;
+        }
+        .popup-content {
+            max-width: 250px;
+            text-align: center;
+        }
+        .popup-content h2 {
+            margin: 5px 0;
+            color: #333;
+        }
+        .popup-content p {
+            margin: 10px 0;
+            color: #666;
+        }
+        .popup-content button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .popup-content button:hover {
+            background-color: #0056b3;
+        }
+        .comment-form textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: none;
+        }
+        .comment-form input[type="submit"] {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .comment-form input[type="submit"]:hover {
+            background-color: #218838;
+        }
+        .comments {
+            margin-top: 10px;
+        }
+        .comments p {
+            margin: 5px 0;
+            color: #666;
         }
     </style>
 </head>
@@ -89,14 +147,16 @@
                     }).addTo(map);
 
                     var popupContent = `
-                        <h2>${location.locationName}</h2>
-                        <p>${location.description}</p>
-                        <button onclick="toggleCommentForm(${location.id})">Add Comment</button>
-                        <form class="comment-form" id="commentForm_${location.id}" onsubmit="submitComment(event, ${location.id})">
-                            <textarea id="commentText_${location.id}" placeholder="Enter your comment"></textarea><br>
-                            <input type="submit" value="Submit">
-                        </form>
-                        <div id="comments_${location.id}"></div>
+                        <div class="popup-content">
+                            <h2>${location.locationName}</h2>
+                            <p>${location.description}</p>
+                            <button onclick="toggleCommentForm(${location.id})">Add Comment</button>
+                            <form class="comment-form" id="commentForm_${location.id}" onsubmit="submitComment(event, ${location.id})">
+                                <textarea id="commentText_${location.id}" placeholder="Enter your comment"></textarea><br>
+                                <input type="submit" value="Submit">
+                            </form>
+                            <div class="comments" id="comments_${location.id}"></div>
+                        </div>
                     `;
                     circle.bindPopup(popupContent).openPopup();
 
@@ -110,4 +170,5 @@
     </script>
 </body>
 </html>
+
 

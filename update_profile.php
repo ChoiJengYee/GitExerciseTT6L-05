@@ -74,146 +74,118 @@ if (isset($_POST['update_profile'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Profile</title>
-    <link rel="stylesheet" href="register.css">
-<style>
-/* Define root variables */
-:root {
-    --light-bg: #f4f4f4;
-    --white: #fff;
-    --black: #333;
-    --box-shadow: 0 0 15px rgba(0,0,0,0.1);
-}
+    <style>
+    /* Reset some basic elements to provide a consistent baseline */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-/* Body styles */
-body {
-    font-family: Arial, sans-serif;
-    background-color: var(--light-bg);
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f0f2f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: #333;
+    }
 
-/* Form container */
 .update-profile {
-    min-height: 100vh;
-    background-color: var(--light-bg); 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: #fff;
     padding: 20px;
-}
-
-/* Form styles */
-.update-profile form {
-    padding: 20px;
-    background-color: var(--white);
-    box-shadow: var(--box-shadow); 
-    text-align: center;
-    width: 700px;
-    border-radius: 5px;
-}
-
-/* Profile image container */
-.profile-img-container {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-/* Profile image */
-.profile-img-container img {
-    height: 200px;
-    width: 200px;
-    border-radius: 50%; 
-    object-fit: cover;
-    margin-bottom: 5px;
-}
-
-/* Form flex layout */
-.update-profile form .flex {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    gap: 15px;
-}
-
-/* Input box */
-.update-profile form .flex .inputBox {
-    width: 49%;
-}
-
-/* Input box label */
-.update-profile form .flex .inputBox span {
-    text-align: left;
-    display: block;
-    margin-top: 15px;
-    font-size: 17px;
-    color: var(--black);
-}
-
-/* Input field */
-.update-profile form .flex .inputBox .box {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
+    max-width: 600px;
+}
+
+.update-profile form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-img-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.profile-img-container img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.flex {
+    display: flex;
+    gap: 20px;
+}
+
+.inputBox {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.inputBox span {
+    font-weight: bold;
+}
+
+.inputBox .box {
+    padding: 10px;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    background-color: var(--light-bg);
-    padding: 12px 14px;
-    font-size: 17px;
-    color: var(--black);
-    margin-top: 10px;
-    transition: background-color 0.3s ease;
+    width: 100%;
 }
 
-/* Error message */
-.message {
-    color: white;
-    margin-bottom: 10px;
+.inputBox .box[type="file"] {
+    border: none;
 }
 
-/* Primary button */
 .btn {
-    padding: 12px 20px;
+    padding: 10px 20px;
+    background: #007bff;
+    color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 17px;
-    margin-top: 20px;
-    background-color: #28a745;
-    color: #fff;
+    transition: background 0.3s ease;
 }
 
-/* Primary button hover */
 .btn:hover {
-    background-color: #218838;
+    background: #0056b3;
 }
 
-/* Delete button */
 .delete-btn {
-    background-color: #dc3545;
-    color: #fff;
-    text-decoration: none;
     display: inline-block;
+    padding: 10px 20px;
+    background: #dc3545;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 10px;
+    transition: background 0.3s ease;
 }
 
-/* Delete button hover */
 .delete-btn:hover {
-    background-color: #c82333;
+    background: #c82333;
 }
 
-/* Responsive design */
-@media (max-width: 650px) {
-    .update-profile form .flex {
-        flex-wrap: wrap;
-        gap: 0;
-    }
-    .update-profile form .flex .inputBox {
-        width: 100%; 
-    }
+.message {
+    background: #ffdddd;
+    color: #d8000c;
+    padding: 10px;
+    border-left: 6px solid #d8000c;
+    margin-bottom: 10px;
+    border-radius: 5px;
 }
-</style>
+    </style>
 </head>
 <body>
 
