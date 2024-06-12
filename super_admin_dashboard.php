@@ -44,7 +44,7 @@ mysqli_close($conn);
             <input type="password" name="password" placeholder="Enter new admin password" required>
             <input type="submit" name="create_admin" value="Create Admin" class="btn">
         </form>
-        <a href="logout.php" class="btn logout">Logout</a>
+        <a href="admin_logout.php" class="btn logout">Logout</a>
     </div>
 </body>
 </html>
