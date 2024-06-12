@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trip Planning</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    h1 {
+      text-align: center;
+      color: blue;
+      padding: 30px;
+      background-color: black;
+    }
+
+    p {
+      text-align: center;
+      color: black;
+      margin-bottom: 8px;
+      padding: 10px;
+      font-size: 20px;
+    }
+
+    form {
+      max-width: 850px;
+      margin: 0 auto;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input[type="checkbox"] {
+      margin-right: 10px;
+    }
+
+    button[type="submit"], button#confirmTrip {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button[type="submit"]:hover, button#confirmTrip:hover {
+      background-color: #0056b3;
+    }
+
+    a:hover {
+      color: hsl(118, 76%, 48%);
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 20px auto;
+      max-width: 600px;
+    }
+
+    li {
+      margin-bottom: 10px;
+      background-color: #fff;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    li button {
+      background-color: #dc3545;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    li button:hover {
+      background-color: #c82333;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Welcome to Multimedia University!</h1>
+
+  <p>Please choose where you want to go!</p>
+
+  <form id="optionsForm">
+    <label>
+      <input type="checkbox" name="option" value="Dewan Tun Canselor" data-lat="2.92894" data-lng="101.64199"><a href="dtc.html">DTC</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="Siti Hasmaah Digital Library & Learning Point" data-lat="2.92755" data-lng="101.64169"><a href="lp_shdl.html">SHDL&LP</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="Central Lecture Complex" data-lat="2.92759" data-lng="101.64237"><a href="clc.html">CLC</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="Faculty of Computing and Informatics" data-lat="2.92867" data-lng="101.64102"><a href="fci.html">FCI</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="Faculty of Creative Multimedia & Faculty of applied communication" data-lat="2.92625" data-lng="101.64263"><a href="fcmfac.html">FCM & FAC</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="Starbees" data-lat="2.92798" data-lng="101.64306"><a href="starbee.html">Starbees</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="Multipurpose Hall" data-lat="2.92809" data-lng="101.64224"><a href="mph.html">MPH</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="Faculty of Management" data-lat="2.92967" data-lng="101.64128"><a href="fom.html">FOM</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="Faculty of Engineering" data-lat="2.92634" data-lng="101.64136"><a href="foe.html">FOE</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="Stadium" data-lat="2.92790" data-lng="101.64418"><a href="mmustadium.html">Stadium</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="HB1 HB2 HB3 HB4" data-lat="2.92575" data-lng="101.64361"><a href="hb1hb2hb3hb4.html">HB1 HB2 HB3 HB4</a>
+    </label>
+    <label>
+      <input type="checkbox" name="option" value="Swimming Pool" data-lat="2.92855" data-lng="101.64351"><a href="swimmingpoolcomplex.html">Swimming Pool</a>
+    </label>
+    <button type="submit">Add to your list</button>
+  </form>
+
+  <h2>Your list:</h2>
+  <ul id="selectedOptions"></ul>
+
+  <button id="confirmTrip">Confirm Trip</button>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script>
+    var markers = {};
+
+    document.getElementById('optionsForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      var checkboxes = document.querySelectorAll('input[name="option"]');
+      var selectedOptions = [];
+
+      checkboxes.forEach(function(checkbox) {
+        var lat = checkbox.getAttribute('data-lat');
+        var lng = checkbox.getAttribute('data-lng');
+        var name = checkbox.value;
+
+        if (checkbox.checked) {
+          if (!markers[name]) {
+            markers[name] = { lat: lat, lng: lng, name: name };
+          }
+        } else {
+          delete markers[name];
+        }
+      });
+
+      var selectedOptionsList = document.getElementById('selectedOptions');
+      selectedOptionsList.innerHTML = '';
+
+      for (var name in markers) {
+        var listItem = document.createElement('li');
+        var deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', function() {
+          var markerName = this.parentElement.firstChild.textContent;
+          delete markers[markerName];
+          this.parentElement.remove();
+        });
+        listItem.textContent = name;
+        listItem.appendChild(deleteButton);
+        selectedOptionsList.appendChild(listItem);
+      }
+    });
+
+    document.getElementById('confirmTrip').addEventListener('click', function() {
+      var selectedMarkers = [];
+      for (var name in markers) {
+        selectedMarkers.push(markers[name]);
+      }
+      localStorage.setItem('selectedMarkers', JSON.stringify(selectedMarkers));
+      window.location.href = 'mapshow.html';
+    });
+  </script>
+</body>
+</html>
