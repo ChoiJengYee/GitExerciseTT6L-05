@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -125,3 +126,132 @@
   </script>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trip Map</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    h1 {
+      text-align: center;
+      color: blue;
+      padding: 30px;
+      background-color: black;
+    }
+
+    #map {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      margin-top: 20px;
+    }
+
+    .leaflet-container {
+      font-size: 1rem;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+  <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+</head>
+<body>
+
+  <h1>Your Trip Map</h1>
+  <div id="map"></div>
+
+  <script>
+    var map = L.map("map", {
+      center: [2.928015, 101.641714],
+      crs: L.CRS.EPSG3857,
+      zoom: 16,
+      zoomControl: true,
+      preferCanvas: false,
+    });
+
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
+      detectRetina: false,
+      maxNativeZoom: 19,
+      maxZoom: 19,
+      minZoom: 0,
+      noWrap: false,
+      opacity: 1,
+      subdomains: "abc",
+      tms: false
+    }).addTo(map);
+
+    var markers = JSON.parse(localStorage.getItem('selectedMarkers')) || [];
+    var allMarkers = [];
+    var currentPositionMarker, routeControl;
+
+    markers.forEach(function(markerData) {
+      var marker = L.marker([markerData.lat, markerData.lng]).addTo(map).bindPopup(markerData.name);
+      marker.on('click', function() {
+        handleMarkerClick(markerData);
+      });
+      allMarkers.push(marker);
+    });
+
+    function handleMarkerClick(targetMarker) {
+      allMarkers.forEach(function(marker) {
+        map.removeLayer(marker);
+      });
+
+    
+      var marker = L.marker([targetMarker.lat, targetMarker.lng]).addTo(map).bindPopup(targetMarker.name);
+
+
+      map.locate({setView: true, maxZoom: 16, watch: true, enableHighAccuracy: true});
+
+      map.on('locationfound', function(e) {
+        if (routeControl) {
+          map.removeControl(routeControl);
+        }
+
+        routeControl = L.Routing.control({
+          waypoints: [
+            L.latLng(e.latlng.lat, e.latlng.lng),
+            L.latLng(targetMarker.lat, targetMarker.lng)
+          ],
+          createMarker: function() { return null; } 
+        }).addTo(map);
+
+        if (currentPositionMarker) {
+          map.removeLayer(currentPositionMarker);
+        }
+        currentPositionMarker = L.marker(e.latlng).addTo(map);
+
+        routeControl.on('routesfound', function() {
+          var route = routeControl.getPlan().getWaypoints();
+          if (route[1].latLng.distanceTo(e.latlng) < 20) { 
+            alert('You have reached your destination!');
+            map.removeControl(routeControl);
+            map.removeLayer(currentPositionMarker);
+            map.removeLayer(marker);
+            allMarkers.forEach(function(m) {
+              map.addLayer(m);
+            });
+          }
+        });
+      });
+
+      map.on('locationerror', function(e) {
+        alert(e.message);
+      });
+    }
+  </script>
+</body>
+</html>
+>>>>>>> 595a236afbe62eb11fb55550f0a40d655906d409
