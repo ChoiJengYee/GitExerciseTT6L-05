@@ -1,51 +1,76 @@
+/* Reset some basic styles for better consistency across browsers */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f9fa;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333;
 }
 
 .container {
-    width: 70%;
-    margin: 20px auto;
+    background: #fff;
     padding: 40px;
-    background-color: #fff;
     border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 h2 {
+    margin-bottom: 20px;
     color: #333;
     font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 20px;
 }
 
 .buttons {
     display: flex;
-    flex-wrap: wrap;
-    margin-top: 30px;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .button {
-    display: inline-block;
-    padding: 12px 24px;
-    margin: 10px;
-    background-color: #007bff;
+    padding: 12px;
+    background: #007bff;
     color: #fff;
-    text-decoration: none;
+    border: none;
     border-radius: 6px;
-    transition: background-color 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    text-align: center;
+    transition: background 0.3s ease;
 }
 
 .button:hover {
-    background-color: #0056b3;
+    background: #0056b3;
 }
 
 .logout {
-    margin-left: auto;
-    background-color: #dc3545;
+    background: #dc3545;
 }
 
 .logout:hover {
-    background-color: #c82333;
+    background: #c82333;
 }
+

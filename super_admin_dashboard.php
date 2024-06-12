@@ -34,20 +34,19 @@ mysqli_close($conn);
 <body>
     <div class="container">
         <h2>Super Admin Dashboard</h2>
-        <?php
-        if (isset($message)) {
-            echo '<div class="message">'.$message.'</div>';
-        }
-        ?>
+        <?php if (isset($message)): ?>
+            <div class="message"><?php echo htmlspecialchars($message); ?></div>
+        <?php endif; ?>
         <form action="super_admin_dashboard.php" method="post">
             <input type="text" name="username" placeholder="Enter new admin username" required>
             <input type="password" name="password" placeholder="Enter new admin password" required>
             <input type="submit" name="create_admin" value="Create Admin" class="btn">
+            <a href="admin_logout.php" class="btn logout">Logout</a>
         </form>
-        <a href="admin_logout.php" class="btn logout">Logout</a>
     </div>
 </body>
 </html>
+
 
 
 
