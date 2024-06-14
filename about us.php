@@ -25,7 +25,7 @@
                         <a href="index.php">Map</a>
                     </div>
                     <div class="menu-item">
-                        <a href="tripmap.html">Booking</a>
+                        <a href="booking.php">Booking</a>
                     </div>
                     <div class="menu-item">
                         Location
