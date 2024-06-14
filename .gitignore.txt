@@ -1,0 +1,14 @@
+# Ignore vendor directory created by Composer
+/vendor/
+
+# Ignore log files
+/logs/
+
+# Ignore environment configuration file
+.env
+
+# Ignore any files ending with .log
+*.log
+
+# Ignore Composer lock file only if it exists in the root (not recommended)
+# /composer.lock

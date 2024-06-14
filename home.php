@@ -1,29 +1,35 @@
 <?php
-
 include 'config.php';
 session_start();
 $user_id = $_SESSION['user_id'];
 
-if(!isset($user_id)){
-    header('location:login.php');
-};
-
-if(isset($_GET['logout'])){
-    unset($user_id);
-    session_destroy();
-    header('location:login.php');
+// Check if user is logged in
+if (!isset($user_id)) {
+    header('location: login.php');
+    exit;
 }
 
+// Fetch user data
+$select = mysqli_query($conn, "SELECT * FROM `users` WHERE id = '$user_id'");
+$fetch = mysqli_fetch_assoc($select);
+
+// Redirect to login if user data cannot be fetched
+if (!$fetch) {
+    header('location: login.php');
+    exit;
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>home</title>
+    <title>Home</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap">
     <style>
+        /* Your CSS styles */
         * {
             margin: 0;
             padding: 0;
@@ -104,18 +110,12 @@ if(isset($_GET['logout'])){
 
 <div class="container">
     <div class="profile">
-        <?php
-            $select = mysqli_query($conn, "SELECT * FROM `users` WHERE id = '$user_id'") or die('query failed');
-            if(mysqli_num_rows($select) > 0){
-                $fetch = mysqli_fetch_assoc($select);
-            }    
-            if($fetch['image'] == ''){
-                echo '<img src="images/default-avatar.png">';
-            } else {
-                echo '<img src="uploaded_img/'.$fetch['image'].'">';
-            }
-        ?> 
-        <h3>Hello, <?php echo $fetch['name']; ?></h3>
+        <?php if (empty($fetch['image'])): ?>
+            <img src="images/default-avatar.png" alt="Default Avatar">
+        <?php else: ?>
+            <img src="uploaded_img/<?php echo htmlspecialchars($fetch['image']); ?>" alt="Profile Picture">
+        <?php endif; ?>
+        <h3>Hello, <?php echo htmlspecialchars($fetch['name']); ?></h3>
         <a href="update_profile.php" class="btn">Update Profile</a>
         <a href="home.php?logout=<?php echo $user_id; ?>" class="delete-btn">Logout</a>
         <a href="about us.php" class="btn">Next</a>
@@ -125,3 +125,4 @@ if(isset($_GET['logout'])){
 
 </body>
 </html>
+
