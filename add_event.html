@@ -8,7 +8,8 @@
 <body>
 <div class="container">
     <h1 class="mt-5">Add New Event</h1>
-    <form method="POST" action="add_event.php" class="mb-5">
+    <form action="add_event.php" method="post" enctype="multipart/form-data">
+    
         <div class="form-group">
             <label for="event_date">Event Date</label>
             <input type="date" class="form-control" id="event_date" name="event_date" required>
