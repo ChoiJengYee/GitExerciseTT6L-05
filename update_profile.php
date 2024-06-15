@@ -22,20 +22,14 @@ $message = '';
 if (isset($_POST['update_profile'])) {
     $update_name = mysqli_real_escape_string($conn, $_POST['update_name']);
     $update_email = mysqli_real_escape_string($conn, $_POST['update_email']);
-    
-    // Check if passwords are being updated
-    $update_pass = $_POST['update_pass'];
-    $new_pass = $_POST['new_pass'];
-    $confirm_pass = $_POST['confirm_pass'];
-
-    // Flag to track if any update was successfully performed
-    $updated = false;
+    $update_pass = mysqli_real_escape_string($conn, $_POST['update_pass']);
+    $new_pass = mysqli_real_escape_string($conn, $_POST['new_pass']);
+    $confirm_pass = mysqli_real_escape_string($conn, $_POST['confirm_pass']);
 
     // Update name and email
     if (!empty($update_name) || !empty($update_email)) {
         mysqli_query($conn, "UPDATE `users` SET name = '$update_name', email = '$update_email' WHERE id = '$user_id'") or die('Query failed');
         $message = 'Profile details updated successfully!';
-        $updated = true;
         // Update the $fetch array with the new name and email
         $fetch['name'] = $update_name;
         $fetch['email'] = $update_email;
@@ -55,7 +49,6 @@ if (isset($_POST['update_profile'])) {
                 if (move_uploaded_file($update_image_tmp_name, $update_image_folder)) {
                     mysqli_query($conn, "UPDATE `users` SET image = '$update_image_name' WHERE id = '$user_id'") or die('Query failed');
                     $message = 'Profile picture updated successfully!';
-                    $updated = true;
                     // Update the $fetch array with the new image name
                     $fetch['image'] = $update_image_name;
                 } else {
@@ -65,29 +58,25 @@ if (isset($_POST['update_profile'])) {
         }
     }
 
-    // Update password
-    if (!empty($update_pass) || !empty($new_pass) || !empty($confirm_pass)) {
-        $old_pass = mysqli_real_escape_string($conn, md5($update_pass));
-        $update_pass = mysqli_real_escape_string($conn, md5($new_pass));
-        $confirm_pass = mysqli_real_escape_string($conn, md5($confirm_pass));
+    // Update password if provided
+    if (!empty($update_pass) && !empty($new_pass) && !empty($confirm_pass)) {
+        $old_pass = mysqli_real_escape_string($conn, $update_pass);
+        $update_pass = mysqli_real_escape_string($conn, $new_pass);
+        $confirm_pass = mysqli_real_escape_string($conn, $confirm_pass);
 
-        if ($update_pass != $confirm_pass) {
-            $message = 'New passwords do not match!';
-        } elseif ($old_pass != $fetch['password']) {
-            $message = 'Old password does not match!';
+        if ($old_pass == $fetch['password']) {
+            if ($new_pass == $confirm_pass) {
+                mysqli_query($conn, "UPDATE `users` SET password = '$update_pass' WHERE id = '$user_id'") or die('Query failed');
+                $message = 'Password updated successfully!';
+            } else {
+                $message = 'New passwords do not match!';
+            }
         } else {
-            // Update password if new password is provided and matches confirmation
-            mysqli_query($conn, "UPDATE `users` SET password = '$update_pass' WHERE id = '$user_id'") or die('Query failed');
-            $message = 'Password updated successfully!';
-            $updated = true;
+            $message = 'Old password does not match!';
         }
     }
-
-    // If no update was performed, display a message
-    if (!$updated) {
-        $message = 'No changes made.';
-    }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -98,123 +87,140 @@ if (isset($_POST['update_profile'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Profile</title>
     <style>
-    /* Reset some basic elements to provide a consistent baseline */
     * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f0f2f5;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        color: #333;
-    }
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+}
 
-    .update-profile {
-        background: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 600px;
-    }
+.update-profile {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
 
-    .update-profile form {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
+.update-profile form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 
-    .profile-img-container {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 20px;
-    }
+.profile-img-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
 
-    .profile-img-container img {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
+.profile-img-container img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-    .flex {
-        display: flex;
-        gap: 20px;
-    }
+.flex {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
 
-    .inputBox {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
+.inputBox {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
-    .inputBox span {
-        font-weight: bold;
-    }
+.inputBox span {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
 
-    .inputBox .box {
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        width: 100%;
-    }
+.inputBox .box {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 100%;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
 
-    .inputBox .box[type="file"] {
-        border: none;
-    }
+.inputBox .box[type="file"] {
+    border: none;
+    padding: 10px;
+}
 
-    .btn {
-        padding: 10px 20px;
-        background: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background 0.3s ease;
-    }
+.inputBox .box:focus {
+    outline: none;
+    border-color: #007bff;
+}
 
-    .btn:hover {
-        background: #0056b3;
-    }
+.btn {
+    padding: 12px 24px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
 
-    .delete-btn {
-        display: inline-block;
-        padding: 10px 20px;
-        background: #dc3545;
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        text-align: center;
-        margin-top: 10px;
-        transition: background 0.3s ease;
-    }
+.btn:hover {
+    background: #0056b3;
+}
 
-    .delete-btn:hover {
-        background: #c82333;
-    }
+.delete-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #dc3545;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
 
-    .message {
-        background: #ffdddd;
-        color: #d8000c;
-        padding: 10px;
-        border-left: 6px solid #d8000c;
-        margin-bottom: 10px;
-        border-radius: 5px;
-    }
+.delete-btn:hover {
+    background: #c82333;
+}
 
-    /* Styling for error messages */
-    .error-message {
-        background: #f8d7da;
-        color: #721c24;
-        border: 1px solid #f5c6cb;
-    }
+.message {
+    background: #d4edda; /* Green background for success message */
+    color: #155724; /* Dark green text color */
+    padding: 12px;
+    border-left: 6px solid #c3e6cb; /* Green border */
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.error-message {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 16px;
+}
     </style>
 </head>
 <body>
@@ -222,12 +228,14 @@ if (isset($_POST['update_profile'])) {
 <div class="update-profile">
     <form action="" method="post" enctype="multipart/form-data">
         <div class="profile-img-container">
+            <!-- Display current profile image or default avatar -->
             <?php if (!empty($fetch['image'])): ?>
                 <img src="uploaded_img/<?php echo $fetch['image']; ?>" alt="Profile Picture">
             <?php else: ?>
                 <img src="images/default-avatar.png" alt="Default Avatar">
             <?php endif; ?>
         </div>
+        <!-- Display message after update -->
         <?php if (!empty($message)): ?>
             <div class="message <?php echo (strpos($message, 'successfully') !== false) ? '' : 'error-message'; ?>"><?php echo $message; ?></div>
         <?php endif; ?>
@@ -256,15 +264,3 @@ if (isset($_POST['update_profile'])) {
 
 </body>
 </html>
-
-
-    
-
-
-
-
-
-
-
-
-
