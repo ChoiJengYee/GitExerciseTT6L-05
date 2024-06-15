@@ -3,17 +3,14 @@ include 'config.php';
 session_start();
 $user_id = $_SESSION['user_id'];
 
-// Check if user is logged in
 if (!isset($user_id)) {
     header('location: login.php');
     exit;
 }
 
-// Fetch user data
 $select = mysqli_query($conn, "SELECT * FROM `users` WHERE id = '$user_id'");
 $fetch = mysqli_fetch_assoc($select);
 
-// Redirect to login if user data cannot be fetched
 if (!$fetch) {
     header('location: login.php');
     exit;
@@ -29,7 +26,6 @@ if (!$fetch) {
     <title>Home</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap">
     <style>
-        /* Your CSS styles */
         * {
             margin: 0;
             padding: 0;
@@ -110,14 +106,18 @@ if (!$fetch) {
 
 <div class="container">
     <div class="profile">
-        <?php if (empty($fetch['image'])): ?>
-            <img src="images/default-avatar.png" alt="Default Avatar">
-        <?php else: ?>
-            <img src="uploaded_img/<?php echo htmlspecialchars($fetch['image']); ?>" alt="Profile Picture">
-        <?php endif; ?>
+        <?php
+            if (!empty($fetch)) {
+                if ($fetch['image'] == '') {
+                    echo '<img src="images/default-avatar.png">';
+                } else {
+                    echo '<img src="uploaded_img/' . $fetch['image'] . '">';
+                }
+            }
+            ?>
         <h3>Hello, <?php echo htmlspecialchars($fetch['name']); ?></h3>
         <a href="update_profile.php" class="btn">Update Profile</a>
-        <a href="home.php?logout=<?php echo $user_id; ?>" class="delete-btn">Logout</a>
+        <a href="logout.php" class="delete-btn">Logout</a>
         <a href="about us.php" class="btn">Next</a>
         <p>New <a href="login.php" class="auth-btn">Login</a> or <a href="register.php" class="auth-btn">Register</a></p>
     </div>

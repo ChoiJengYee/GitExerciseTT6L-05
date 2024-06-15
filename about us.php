@@ -22,7 +22,7 @@
                         <a href="home.php">Home</a>
                     </div>
                     <div class="menu-item">
-                        <a href="index.php">Map</a>
+                        <a href="map.php">Map</a>
                     </div>
                     <div class="menu-item">
                         <a href="booking.php">Booking</a>
@@ -57,7 +57,7 @@
                         Profile
                         <div class="submenu">
                             <a href="update_profile.php">Manage Account</a>
-                            <a href="homescreen.html">Sign Out</a>
+                            <a href="index.html">Sign Out</a>
                         </div>
                     </div>
                 </div>

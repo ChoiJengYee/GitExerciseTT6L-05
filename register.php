@@ -1,17 +1,17 @@
 <?php
-include 'config.php';
+include 'config.php'; // Assuming this file contains your database connection
 session_start();
 
 $message = [];
 
-if (isset($_POST['submit'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
     $cpassword = mysqli_real_escape_string($conn, $_POST['cpassword']);
     $image = $_FILES['image']['name'];
-    $image_size = $_FILES['image']['size'];
     $image_tmp_name = $_FILES['image']['tmp_name'];
+    $image_size = $_FILES['image']['size'];
     $image_folder = 'uploaded_img/' . $image;
 
     if (empty($name) || empty($email) || empty($password) || empty($cpassword) || empty($image)) {
@@ -23,18 +23,17 @@ if (isset($_POST['submit'])) {
             if ($image_size > 2000000) {
                 $message[] = 'Image size is too large (max 2MB).';
             } else {
-                $target_dir = $_SERVER['DOCUMENT_ROOT'] . '/myapp/uploaded_img/';
-                $target_path = $target_dir . basename($image);
+                // Directory to save uploaded images
+                $target_dir = 'uploaded_img/';
 
-                if (!file_exists($target_dir)) {
-                    mkdir($target_dir, 0777, true);
-                }
-
-                if (move_uploaded_file($image_tmp_name, $target_path)) {
+                // Move uploaded file to target directory
+                if (move_uploaded_file($image_tmp_name, $target_dir . $image)) {
+                    // Prepare and execute SQL statement to insert user data into database
                     $stmt = $conn->prepare("INSERT INTO `users` (name, email, password, image) VALUES (?, ?, ?, ?)");
                     $stmt->bind_param("ssss", $name, $email, $password, $image);
 
                     if ($stmt->execute()) {
+                        // Registration successful, redirect to login page
                         header('Location: login.php');
                         exit();
                     } else {
@@ -64,7 +63,7 @@ if (isset($_POST['submit'])) {
 <body>
 
 <div class="form-container">
-    <form action="register.php" method="post" enctype="multipart/form-data">
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
         <h3>Register Now</h3>
         <?php
         if (!empty($message)) {
@@ -85,4 +84,5 @@ if (isset($_POST['submit'])) {
 
 </body>
 </html>
+
 
