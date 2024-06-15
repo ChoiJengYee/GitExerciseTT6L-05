@@ -104,7 +104,6 @@
 </body>
 </html>
 
-
 <style>
 /* Reset and General Styles */
 * {
@@ -162,43 +161,30 @@ nav {
 .submenu {
     display: none;
     position: absolute;
-    top: calc(100% + 10px);
-    left: 50%; /* Center the submenu horizontally */
-    transform: translateX(-50%); /* Center the submenu horizontally */
-    background-color: #fff;
+    top: 100%;
+    left: 0;
+    background-color: #f9f9f9;
     min-width: 160px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
     max-height: 300px;
     overflow-y: auto;
-    opacity: 0; /* Hide submenu initially */
-    pointer-events: none; /* Disable pointer events initially */
-    transition: opacity 0.3s ease; /* Add transition for smoother appearance */
 }
-
-.menu-item:hover .submenu {
-    display: block;
-    opacity: 1; /* Ensure submenu is fully visible */
-    pointer-events: auto; /* Enable pointer events */
-    transition-delay: 0.2s; /* Add a delay before showing submenu */
-}
-
-.menu-item:not(:hover) .submenu {
-    opacity: 0; /* Hide submenu with reduced opacity */
-    pointer-events: none; /* Disable pointer events to prevent interaction */
-}
-
 .submenu a {
-    color: #333;
+    color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
     text-align: left;
-    transition: background-color 0.3s ease;
 }
-
 .submenu a:hover {
-    background-color: #f1f1f1;
+    background-color: #ddd;
+}
+.menu-item:hover .submenu {
+    display: block;
+}
+.menu-item:hover {
+    background-color: #416ab6;
 }
 
 /* About Us Section */
@@ -368,5 +354,32 @@ nav {
 .footer a {
     color: #fff;
 }
-
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const menuItems = document.querySelectorAll('.menu-item');
+
+    menuItems.forEach(item => {
+        item.addEventListener('mouseenter', function () {
+            const submenu = this.querySelector('.submenu');
+            if (submenu) {
+                submenu.style.display = 'block';
+                submenu.style.opacity = '1';
+                submenu.style.pointerEvents = 'auto';
+            }
+        });
+
+        item.addEventListener('mouseleave', function () {
+            const submenu = this.querySelector('.submenu');
+            if (submenu) {
+                submenu.style.display = 'none';
+                submenu.style.opacity = '0';
+                submenu.style.pointerEvents = 'none';
+            }
+        });
+    });
+});
+</script>
+
+</script>
