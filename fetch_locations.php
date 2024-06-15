@@ -1,5 +1,5 @@
 <?php
-$conn = mysqli_connect('localhost', 'root', '', 'user_db') or die('connection failed');
+include 'config.php';
 
 $sql = "SELECT id, locationName, lat, lng, description FROM locations";
 $result = mysqli_query($conn, $sql);
