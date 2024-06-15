@@ -57,6 +57,7 @@
                         Profile
                         <div class="submenu">
                             <a href="update_profile.php">Manage Account</a>
+                            <a href="mybooking.php">My Bookings</a>
                             <a href="index.html">Sign Out</a>
                         </div>
                     </div>
