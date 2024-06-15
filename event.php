@@ -1,5 +1,5 @@
 <?php
-include 'config2.php';
+include 'config.php';
 
 $sql = "SELECT * FROM events";
 $result = $conn->query($sql);

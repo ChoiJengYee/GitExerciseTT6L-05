@@ -1,5 +1,5 @@
 <?php
-include 'config2.php';
+include 'config.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $event_date = $_POST['event_date'];

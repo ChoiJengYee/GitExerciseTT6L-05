@@ -1,6 +1,5 @@
 <?php
-$conn = mysqli_connect('localhost', 'root', '', 'user_db') or die('Connection failed: ' . mysqli_connect_error());
-
+include 'config.php';
 $locations = [
     ["lat" => 2.927550, "lng" => 101.642350, "title" => "Central Lecture Complex (CLC)", "description" => "Fun fact: There are always food stalls outside eheh."],
     ["lat" => 2.928900, "lng" => 101.642020, "title" => "Dewan Tun Censalor (DTC)", "description" => "Fun fact: This hall can fill around 500 people."],
